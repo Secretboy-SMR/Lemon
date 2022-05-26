@@ -1,0 +1,6 @@
+syntax = "proto3";
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+message GetOnlinePlayerListReq {
+uint32 targetUid = 1;
+}

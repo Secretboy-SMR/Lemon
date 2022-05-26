@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+enum StoreType {
+	STORE_NONE = 0;
+	STORE_PACK = 1;
+	STORE_DEPOT = 2;
+}

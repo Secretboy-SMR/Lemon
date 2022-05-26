@@ -1,0 +1,599 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CF08D85-B063-43E0-8A35-09286F3C73FF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Lemonade</RootNamespace>
+    <AssemblyName>Lemonade</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>10</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.21.0-rc2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta1" />
+    <PackageReference Include="PacketDotNet" Version="1.4.6" />
+    <PackageReference Include="PresentationFramework" Version="4.6.0" />
+    <PackageReference Include="Serilog" Version="2.11.1-dev-01397" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
+    <PackageReference Include="SharpPcap" Version="6.2.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="7.0.0-preview.4.22229.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.cs" />
+    <Compile Include="Handler.cs" />
+    <Compile Include="Net\Protocol\AbilityAppliedAbility.cs" />
+    <Compile Include="Net\Protocol\AbilityAppliedModifier.cs" />
+    <Compile Include="Net\Protocol\AbilityAttachedModifier.cs" />
+    <Compile Include="Net\Protocol\AbilityChangeNotify.cs" />
+    <Compile Include="Net\Protocol\AbilityControlBlock.cs" />
+    <Compile Include="Net\Protocol\AbilityEmbryo.cs" />
+    <Compile Include="Net\Protocol\AbilityGadgetInfo.cs" />
+    <Compile Include="Net\Protocol\AbilityIdentifier.cs" />
+    <Compile Include="Net\Protocol\AbilityInvocationsNotify.cs" />
+    <Compile Include="Net\Protocol\AbilityInvokeArgument.cs" />
+    <Compile Include="Net\Protocol\AbilityInvokeEntry.cs" />
+    <Compile Include="Net\Protocol\AbilityInvokeEntryHead.cs" />
+    <Compile Include="Net\Protocol\AbilityMixinRecoverInfo.cs" />
+    <Compile Include="Net\Protocol\AbilityScalarType.cs" />
+    <Compile Include="Net\Protocol\AbilityScalarValueEntry.cs" />
+    <Compile Include="Net\Protocol\AbilityString.cs" />
+    <Compile Include="Net\Protocol\AbilitySyncStateInfo.cs" />
+    <Compile Include="Net\Protocol\AchievementInfo.cs" />
+    <Compile Include="Net\Protocol\ActionReasonType.cs" />
+    <Compile Include="Net\Protocol\ActivityInfo.cs" />
+    <Compile Include="Net\Protocol\ActivityNullDetailInfo.cs" />
+    <Compile Include="Net\Protocol\ActivityWatcherInfo.cs" />
+    <Compile Include="Net\Protocol\AdjustTrackingInfo.cs" />
+    <Compile Include="Net\Protocol\AiSkillCdInfo.cs" />
+    <Compile Include="Net\Protocol\AiSyncInfo.cs" />
+    <Compile Include="Net\Protocol\AiThreatInfo.cs" />
+    <Compile Include="Net\Protocol\AnimatorParameterValueInfo.cs" />
+    <Compile Include="Net\Protocol\AnimatorParameterValueInfoPair.cs" />
+    <Compile Include="Net\Protocol\AskAddFriendNotify.cs" />
+    <Compile Include="Net\Protocol\AskAddFriendReq.cs" />
+    <Compile Include="Net\Protocol\AskAddFriendRsp.cs" />
+    <Compile Include="Net\Protocol\AttackHitEffectResult.cs" />
+    <Compile Include="Net\Protocol\AttackResult.cs" />
+    <Compile Include="Net\Protocol\AvatarAddNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarChangeCostumeNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarChangeCostumeReq.cs" />
+    <Compile Include="Net\Protocol\AvatarChangeCostumeRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarDataNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarDieAnimationEndReq.cs" />
+    <Compile Include="Net\Protocol\AvatarDieAnimationEndRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarEnterSceneInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarEquipAffixInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarEquipChangeNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarExcelInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionAllDataRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionCallBackReq.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionCallBackRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionDataNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionGetRewardReq.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionGetRewardRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionStartReq.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionStartRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarExpeditionState.cs" />
+    <Compile Include="Net\Protocol\AvatarFetterDataNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarFetterInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarFetterLevelRewardReq.cs" />
+    <Compile Include="Net\Protocol\AvatarFetterLevelRewardRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarFightPropNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarFightPropUpdateNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarFlycloakChangeNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarGainCostumeNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarGainFlycloakNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarLifeStateChangeNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarPromoteGetRewardReq.cs" />
+    <Compile Include="Net\Protocol\AvatarPromoteGetRewardRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarPromoteReq.cs" />
+    <Compile Include="Net\Protocol\AvatarPromoteRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarPropNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarSkillChangeNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarSkillInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarSkillInfoNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarSkillMaxChargeCountNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarSkillUpgradeReq.cs" />
+    <Compile Include="Net\Protocol\AvatarSkillUpgradeRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarTeam.cs" />
+    <Compile Include="Net\Protocol\AvatarTeamResonanceInfo.cs" />
+    <Compile Include="Net\Protocol\AvatarTeamUpdateNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarUnlockTalentNotify.cs" />
+    <Compile Include="Net\Protocol\AvatarUpgradeReq.cs" />
+    <Compile Include="Net\Protocol\AvatarUpgradeRsp.cs" />
+    <Compile Include="Net\Protocol\AvatarWearFlycloakReq.cs" />
+    <Compile Include="Net\Protocol\AvatarWearFlycloakRsp.cs" />
+    <Compile Include="Net\Protocol\Birthday.cs" />
+    <Compile Include="Net\Protocol\BlockInfo.cs" />
+    <Compile Include="Net\Protocol\BlossomBriefInfo.cs" />
+    <Compile Include="Net\Protocol\BlossomChestInfo.cs" />
+    <Compile Include="Net\Protocol\BossChestInfo.cs" />
+    <Compile Include="Net\Protocol\BuildingInfo.cs" />
+    <Compile Include="Net\Protocol\BuyGoodsReq.cs" />
+    <Compile Include="Net\Protocol\BuyGoodsRsp.cs" />
+    <Compile Include="Net\Protocol\CalcWeaponUpgradeReturnItemsReq.cs" />
+    <Compile Include="Net\Protocol\CalcWeaponUpgradeReturnItemsRsp.cs" />
+    <Compile Include="Net\Protocol\CardProductRewardNotify.cs" />
+    <Compile Include="Net\Protocol\ChallengeDataNotify.cs" />
+    <Compile Include="Net\Protocol\ChangeAvatarReq.cs" />
+    <Compile Include="Net\Protocol\ChangeAvatarRsp.cs" />
+    <Compile Include="Net\Protocol\ChangeEnergyReason.cs" />
+    <Compile Include="Net\Protocol\ChangeGameTimeReq.cs" />
+    <Compile Include="Net\Protocol\ChangeGameTimeRsp.cs" />
+    <Compile Include="Net\Protocol\ChangeHpReason.cs" />
+    <Compile Include="Net\Protocol\ChangeMailStarNotify.cs" />
+    <Compile Include="Net\Protocol\ChangeMpTeamAvatarReq.cs" />
+    <Compile Include="Net\Protocol\ChangeMpTeamAvatarRsp.cs" />
+    <Compile Include="Net\Protocol\ChangeTeamNameReq.cs" />
+    <Compile Include="Net\Protocol\ChangeTeamNameRsp.cs" />
+    <Compile Include="Net\Protocol\ChannellerSlabLoopDungeonResultInfo.cs" />
+    <Compile Include="Net\Protocol\ChatInfo.cs" />
+    <Compile Include="Net\Protocol\ChooseCurAvatarTeamReq.cs" />
+    <Compile Include="Net\Protocol\ChooseCurAvatarTeamRsp.cs" />
+    <Compile Include="Net\Protocol\CityInfo.cs" />
+    <Compile Include="Net\Protocol\ClientAbilityChangeNotify.cs" />
+    <Compile Include="Net\Protocol\ClientAbilityInitBeginNotify.cs" />
+    <Compile Include="Net\Protocol\ClientAbilityInitFinishNotify.cs" />
+    <Compile Include="Net\Protocol\ClientGadgetInfo.cs" />
+    <Compile Include="Net\Protocol\CombatInvocationsNotify.cs" />
+    <Compile Include="Net\Protocol\CombatInvokeEntry.cs" />
+    <Compile Include="Net\Protocol\CombatTypeArgument.cs" />
+    <Compile Include="Net\Protocol\CombineDataNotify.cs" />
+    <Compile Include="Net\Protocol\CombineFormulaDataNotify.cs" />
+    <Compile Include="Net\Protocol\CombineReq.cs" />
+    <Compile Include="Net\Protocol\CombineRsp.cs" />
+    <Compile Include="Net\Protocol\CoopCg.cs" />
+    <Compile Include="Net\Protocol\CoopChapter.cs" />
+    <Compile Include="Net\Protocol\CoopChapterState.cs" />
+    <Compile Include="Net\Protocol\CoopDataNotify.cs" />
+    <Compile Include="Net\Protocol\CoopPoint.cs" />
+    <Compile Include="Net\Protocol\CoopPointState.cs" />
+    <Compile Include="Net\Protocol\CoopReward.cs" />
+    <Compile Include="Net\Protocol\CoopRewardState.cs" />
+    <Compile Include="Net\Protocol\CountDownDelete.cs" />
+    <Compile Include="Net\Protocol\CurVehicleInfo.cs" />
+    <Compile Include="Net\Protocol\CustomCommonNodeInfo.cs" />
+    <Compile Include="Net\Protocol\CustomGadgetTreeInfo.cs" />
+    <Compile Include="Net\Protocol\DateTimeDelete.cs" />
+    <Compile Include="Net\Protocol\DealAddFriendReq.cs" />
+    <Compile Include="Net\Protocol\DealAddFriendResultType.cs" />
+    <Compile Include="Net\Protocol\DealAddFriendRsp.cs" />
+    <Compile Include="Net\Protocol\DelayWeekCountDownDelete.cs" />
+    <Compile Include="Net\Protocol\DeleteFriendNotify.cs" />
+    <Compile Include="Net\Protocol\DeleteFriendReq.cs" />
+    <Compile Include="Net\Protocol\DeleteFriendRsp.cs" />
+    <Compile Include="Net\Protocol\DelMailReq.cs" />
+    <Compile Include="Net\Protocol\DelMailRsp.cs" />
+    <Compile Include="Net\Protocol\DelTeamEntityNotify.cs" />
+    <Compile Include="Net\Protocol\DestroyMaterialReq.cs" />
+    <Compile Include="Net\Protocol\DestroyMaterialRsp.cs" />
+    <Compile Include="Net\Protocol\DoGachaReq.cs" />
+    <Compile Include="Net\Protocol\DoGachaRsp.cs" />
+    <Compile Include="Net\Protocol\DropHintNotify.cs" />
+    <Compile Include="Net\Protocol\DungeonChallengeBeginNotify.cs" />
+    <Compile Include="Net\Protocol\DungeonChallengeFinishNotify.cs" />
+    <Compile Include="Net\Protocol\DungeonDataNotify.cs" />
+    <Compile Include="Net\Protocol\DungeonEntryInfo.cs" />
+    <Compile Include="Net\Protocol\DungeonEntryInfoReq.cs" />
+    <Compile Include="Net\Protocol\DungeonEntryInfoRsp.cs" />
+    <Compile Include="Net\Protocol\DungeonGetStatueDropRsp.cs" />
+    <Compile Include="Net\Protocol\DungeonSettleNotify.cs" />
+    <Compile Include="Net\Protocol\EchoShellInfo.cs" />
+    <Compile Include="Net\Protocol\EffigyChallengeDungeonResultInfo.cs" />
+    <Compile Include="Net\Protocol\EnterSceneDoneRsp.cs" />
+    <Compile Include="Net\Protocol\EnterScenePeerNotify.cs" />
+    <Compile Include="Net\Protocol\EnterSceneReadyRsp.cs" />
+    <Compile Include="Net\Protocol\EnterTransPointRegionNotify.cs" />
+    <Compile Include="Net\Protocol\EnterType.cs" />
+    <Compile Include="Net\Protocol\EnterWorldAreaReq.cs" />
+    <Compile Include="Net\Protocol\EnterWorldAreaRsp.cs" />
+    <Compile Include="Net\Protocol\EntityAiSyncNotify.cs" />
+    <Compile Include="Net\Protocol\EntityAuthorityInfo.cs" />
+    <Compile Include="Net\Protocol\EntityClientData.cs" />
+    <Compile Include="Net\Protocol\EntityEnvironmentInfo.cs" />
+    <Compile Include="Net\Protocol\EntityFightPropChangeReasonNotify.cs" />
+    <Compile Include="Net\Protocol\EntityFightPropUpdateNotify.cs" />
+    <Compile Include="Net\Protocol\EntityMoveInfo.cs" />
+    <Compile Include="Net\Protocol\EntityPropNotify.cs" />
+    <Compile Include="Net\Protocol\EntityRendererChangedInfo.cs" />
+    <Compile Include="Net\Protocol\Equip.cs" />
+    <Compile Include="Net\Protocol\EquipParam.cs" />
+    <Compile Include="Net\Protocol\EvtAiSyncCombatThreatInfoNotify.cs" />
+    <Compile Include="Net\Protocol\EvtAiSyncSkillCdNotify.cs" />
+    <Compile Include="Net\Protocol\EvtAvatarLockChairReq.cs" />
+    <Compile Include="Net\Protocol\EvtAvatarLockChairRsp.cs" />
+    <Compile Include="Net\Protocol\EvtAvatarSitDownNotify.cs" />
+    <Compile Include="Net\Protocol\EvtAvatarStandUpNotify.cs" />
+    <Compile Include="Net\Protocol\EvtBeingHitInfo.cs" />
+    <Compile Include="Net\Protocol\EvtBeingHitNotify.cs" />
+    <Compile Include="Net\Protocol\EvtBeingHitsCombineNotify.cs" />
+    <Compile Include="Net\Protocol\EvtCreateGadgetNotify.cs" />
+    <Compile Include="Net\Protocol\EvtDestroyGadgetNotify.cs" />
+    <Compile Include="Net\Protocol\EvtDoSkillSuccNotify.cs" />
+    <Compile Include="Net\Protocol\EvtHittingOtherInfo.cs" />
+    <Compile Include="Net\Protocol\FeatureBlockInfo.cs" />
+    <Compile Include="Net\Protocol\FetterData.cs" />
+    <Compile Include="Net\Protocol\FightPropPair.cs" />
+    <Compile Include="Net\Protocol\FishPoolInfo.cs" />
+    <Compile Include="Net\Protocol\ForceUpdateInfo.cs" />
+    <Compile Include="Net\Protocol\ForwardType.cs" />
+    <Compile Include="Net\Protocol\FoundationInfo.cs" />
+    <Compile Include="Net\Protocol\FoundationStatus.cs" />
+    <Compile Include="Net\Protocol\FriendBrief.cs" />
+    <Compile Include="Net\Protocol\FriendEnterHomeOption.cs" />
+    <Compile Include="Net\Protocol\FriendOnlineState.cs" />
+    <Compile Include="Net\Protocol\Furniture.cs" />
+    <Compile Include="Net\Protocol\GachaInfo.cs" />
+    <Compile Include="Net\Protocol\GachaItem.cs" />
+    <Compile Include="Net\Protocol\GachaTransferItem.cs" />
+    <Compile Include="Net\Protocol\GachaUpInfo.cs" />
+    <Compile Include="Net\Protocol\GadgetAutoPickDropInfoNotify.cs" />
+    <Compile Include="Net\Protocol\GadgetBornType.cs" />
+    <Compile Include="Net\Protocol\GadgetClientParam.cs" />
+    <Compile Include="Net\Protocol\GadgetCrucibleInfo.cs" />
+    <Compile Include="Net\Protocol\GadgetGeneralRewardInfo.cs" />
+    <Compile Include="Net\Protocol\GadgetInteractReq.cs" />
+    <Compile Include="Net\Protocol\GadgetInteractRsp.cs" />
+    <Compile Include="Net\Protocol\GadgetPlayInfo.cs" />
+    <Compile Include="Net\Protocol\GadgetStateNotify.cs" />
+    <Compile Include="Net\Protocol\GatherGadgetInfo.cs" />
+    <Compile Include="Net\Protocol\GetActivityInfoRsp.cs" />
+    <Compile Include="Net\Protocol\GetAllMailReq.cs" />
+    <Compile Include="Net\Protocol\GetAllMailRsp.cs" />
+    <Compile Include="Net\Protocol\GetAllUnlockNameCardRsp.cs" />
+    <Compile Include="Net\Protocol\GetAuthkeyReq.cs" />
+    <Compile Include="Net\Protocol\GetAuthkeyRsp.cs" />
+    <Compile Include="Net\Protocol\GetFriendShowAvatarInfoReq.cs" />
+    <Compile Include="Net\Protocol\GetFriendShowAvatarInfoRsp.cs" />
+    <Compile Include="Net\Protocol\GetGachaInfoRsp.cs" />
+    <Compile Include="Net\Protocol\GetMailItemReq.cs" />
+    <Compile Include="Net\Protocol\GetMailItemRsp.cs" />
+    <Compile Include="Net\Protocol\GetOnlinePlayerListReq.cs" />
+    <Compile Include="Net\Protocol\GetOnlinePlayerListRsp.cs" />
+    <Compile Include="Net\Protocol\GetPlayerAskFriendListRsp.cs" />
+    <Compile Include="Net\Protocol\GetPlayerBlacklistRsp.cs" />
+    <Compile Include="Net\Protocol\GetPlayerFriendListRsp.cs" />
+    <Compile Include="Net\Protocol\GetPlayerSocialDetailReq.cs" />
+    <Compile Include="Net\Protocol\GetPlayerSocialDetailRsp.cs" />
+    <Compile Include="Net\Protocol\GetPlayerTokenReq.cs" />
+    <Compile Include="Net\Protocol\GetPlayerTokenRsp.cs" />
+    <Compile Include="Net\Protocol\GetSceneAreaReq.cs" />
+    <Compile Include="Net\Protocol\GetSceneAreaRsp.cs" />
+    <Compile Include="Net\Protocol\GetScenePointReq.cs" />
+    <Compile Include="Net\Protocol\GetScenePointRsp.cs" />
+    <Compile Include="Net\Protocol\GetShopmallDataRsp.cs" />
+    <Compile Include="Net\Protocol\GetShopReq.cs" />
+    <Compile Include="Net\Protocol\GetShopRsp.cs" />
+    <Compile Include="Net\Protocol\GetWorldMpInfoRsp.cs" />
+    <Compile Include="Net\Protocol\H5ActivityIdsNotify.cs" />
+    <Compile Include="Net\Protocol\HitColliderType.cs" />
+    <Compile Include="Net\Protocol\HitCollision.cs" />
+    <Compile Include="Net\Protocol\HostPlayerNotify.cs" />
+    <Compile Include="Net\Protocol\InteractType.cs" />
+    <Compile Include="Net\Protocol\InterOpType.cs" />
+    <Compile Include="Net\Protocol\Item.cs" />
+    <Compile Include="Net\Protocol\ItemAddHintNotify.cs" />
+    <Compile Include="Net\Protocol\ItemExceedLimitNotify.cs" />
+    <Compile Include="Net\Protocol\ItemGivingReq.cs" />
+    <Compile Include="Net\Protocol\ItemGivingRsp.cs" />
+    <Compile Include="Net\Protocol\ItemHint.cs" />
+    <Compile Include="Net\Protocol\ItemParam.cs" />
+    <Compile Include="Net\Protocol\LifeStateChangeNotify.cs" />
+    <Compile Include="Net\Protocol\MailChangeNotify.cs" />
+    <Compile Include="Net\Protocol\MailData.cs" />
+    <Compile Include="Net\Protocol\MailItem.cs" />
+    <Compile Include="Net\Protocol\MailTextContent.cs" />
+    <Compile Include="Net\Protocol\MapMarkFromType.cs" />
+    <Compile Include="Net\Protocol\MapMarkPoint.cs" />
+    <Compile Include="Net\Protocol\MapMarkPointType.cs" />
+    <Compile Include="Net\Protocol\MapMarkTipsInfo.cs" />
+    <Compile Include="Net\Protocol\MapMarkTipsType.cs" />
+    <Compile Include="Net\Protocol\MarkEntityInMinMapNotify.cs" />
+    <Compile Include="Net\Protocol\MarkMapReq.cs" />
+    <Compile Include="Net\Protocol\MarkMapRsp.cs" />
+    <Compile Include="Net\Protocol\MarkNewNotify.cs" />
+    <Compile Include="Net\Protocol\MarkNewType.cs" />
+    <Compile Include="Net\Protocol\MassivePropParam.cs" />
+    <Compile Include="Net\Protocol\MassivePropSyncInfo.cs" />
+    <Compile Include="Net\Protocol\Material.cs" />
+    <Compile Include="Net\Protocol\MaterialDeleteInfo.cs" />
+    <Compile Include="Net\Protocol\MaterialInfo.cs" />
+    <Compile Include="Net\Protocol\MathQuaternion.cs" />
+    <Compile Include="Net\Protocol\McoinExchangeHcoinReq.cs" />
+    <Compile Include="Net\Protocol\McoinExchangeHcoinRsp.cs" />
+    <Compile Include="Net\Protocol\ModifierDurability.cs" />
+    <Compile Include="Net\Protocol\MonsterBornType.cs" />
+    <Compile Include="Net\Protocol\MonsterRoute.cs" />
+    <Compile Include="Net\Protocol\MotionInfo.cs" />
+    <Compile Include="Net\Protocol\MotionState.cs" />
+    <Compile Include="Net\Protocol\MovingPlatformType.cs" />
+    <Compile Include="Net\Protocol\MPLevelEntityInfo.cs" />
+    <Compile Include="Net\Protocol\MpPlayRewardInfo.cs" />
+    <Compile Include="Net\Protocol\MpSettingType.cs" />
+    <Compile Include="Net\Protocol\NpcTalkReq.cs" />
+    <Compile Include="Net\Protocol\NpcTalkRsp.cs" />
+    <Compile Include="Net\Protocol\OfferingInfo.cs" />
+    <Compile Include="Net\Protocol\OnlinePlayerInfo.cs" />
+    <Compile Include="Net\Protocol\OpenStateUpdateNotify.cs" />
+    <Compile Include="Net\Protocol\Operation.cs" />
+    <Compile Include="Net\Protocol\PacketHead.cs" />
+    <Compile Include="Net\Protocol\ParamList.cs" />
+    <Compile Include="Net\Protocol\PersonalSceneJumpReq.cs" />
+    <Compile Include="Net\Protocol\PersonalSceneJumpRsp.cs" />
+    <Compile Include="Net\Protocol\PingReq.cs" />
+    <Compile Include="Net\Protocol\PingRsp.cs" />
+    <Compile Include="Net\Protocol\PlatformInfo.cs" />
+    <Compile Include="Net\Protocol\PlatformType.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpReason.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpReq.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpResultNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpResultReq.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpResultRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerApplyEnterMpRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerChatNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerChatReq.cs" />
+    <Compile Include="Net\Protocol\PlayerChatRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerDataNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerDieType.cs" />
+    <Compile Include="Net\Protocol\PlayerEnterDungeonReq.cs" />
+    <Compile Include="Net\Protocol\PlayerEnterDungeonRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerEnterSceneInfoNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerEnterSceneNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerGameTimeNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerGetForceQuitBanInfoRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerLevelRewardUpdateNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerLocationInfo.cs" />
+    <Compile Include="Net\Protocol\PlayerLoginReq.cs" />
+    <Compile Include="Net\Protocol\PlayerLoginRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerPropNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerQuitDungeonReq.cs" />
+    <Compile Include="Net\Protocol\PlayerQuitDungeonRsp.cs" />
+    <Compile Include="Net\Protocol\PlayerRTTInfo.cs" />
+    <Compile Include="Net\Protocol\PlayerSetPauseReq.cs" />
+    <Compile Include="Net\Protocol\PlayerStoreNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerTimeNotify.cs" />
+    <Compile Include="Net\Protocol\PlayerWorldLocationInfo.cs" />
+    <Compile Include="Net\Protocol\PlayTeamEntityInfo.cs" />
+    <Compile Include="Net\Protocol\PostEnterSceneRsp.cs" />
+    <Compile Include="Net\Protocol\PrivateChatNotify.cs" />
+    <Compile Include="Net\Protocol\PrivateChatReq.cs" />
+    <Compile Include="Net\Protocol\PrivateChatRsp.cs" />
+    <Compile Include="Net\Protocol\ProfilePicture.cs" />
+    <Compile Include="Net\Protocol\PropChangeReason.cs" />
+    <Compile Include="Net\Protocol\PropPair.cs" />
+    <Compile Include="Net\Protocol\PropValue.cs" />
+    <Compile Include="Net\Protocol\ProtEntityType.cs" />
+    <Compile Include="Net\Protocol\ProudSkillChangeNotify.cs" />
+    <Compile Include="Net\Protocol\ProudSkillExtraLevelNotify.cs" />
+    <Compile Include="Net\Protocol\PullPrivateChatReq.cs" />
+    <Compile Include="Net\Protocol\PullPrivateChatRsp.cs" />
+    <Compile Include="Net\Protocol\PullRecentChatRsp.cs" />
+    <Compile Include="Net\Protocol\QueryCurrRegionHttpRsp.cs" />
+    <Compile Include="Net\Protocol\QueryRegionListHttpRsp.cs" />
+    <Compile Include="Net\Protocol\ReadMailNotify.cs" />
+    <Compile Include="Net\Protocol\RegionInfo.cs" />
+    <Compile Include="Net\Protocol\RegionSimpleInfo.cs" />
+    <Compile Include="Net\Protocol\Reliquary.cs" />
+    <Compile Include="Net\Protocol\ReliquaryPromoteReq.cs" />
+    <Compile Include="Net\Protocol\ReliquaryPromoteRsp.cs" />
+    <Compile Include="Net\Protocol\ReliquaryUpgradeReq.cs" />
+    <Compile Include="Net\Protocol\ReliquaryUpgradeRsp.cs" />
+    <Compile Include="Net\Protocol\ResinCard.cs" />
+    <Compile Include="Net\Protocol\ResinChangeNotify.cs" />
+    <Compile Include="Net\Protocol\ResinCostType.cs" />
+    <Compile Include="Net\Protocol\ResVersionConfig.cs" />
+    <Compile Include="Net\Protocol\Retcode.cs" />
+    <Compile Include="Net\Protocol\RoguelikeGadgetInfo.cs" />
+    <Compile Include="Net\Protocol\Route.cs" />
+    <Compile Include="Net\Protocol\RoutePoint.cs" />
+    <Compile Include="Net\Protocol\SceneAreaWeatherNotify.cs" />
+    <Compile Include="Net\Protocol\SceneAvatarInfo.cs" />
+    <Compile Include="Net\Protocol\SceneEntityAiInfo.cs" />
+    <Compile Include="Net\Protocol\SceneEntityAppearNotify.cs" />
+    <Compile Include="Net\Protocol\SceneEntityDisappearNotify.cs" />
+    <Compile Include="Net\Protocol\SceneEntityDrownReq.cs" />
+    <Compile Include="Net\Protocol\SceneEntityDrownRsp.cs" />
+    <Compile Include="Net\Protocol\SceneEntityInfo.cs" />
+    <Compile Include="Net\Protocol\SceneEntityMoveNotify.cs" />
+    <Compile Include="Net\Protocol\SceneFishInfo.cs" />
+    <Compile Include="Net\Protocol\SceneForceUnlockNotify.cs" />
+    <Compile Include="Net\Protocol\SceneGadgetInfo.cs" />
+    <Compile Include="Net\Protocol\SceneInitFinishRsp.cs" />
+    <Compile Include="Net\Protocol\SceneKickPlayerNotify.cs" />
+    <Compile Include="Net\Protocol\SceneKickPlayerReq.cs" />
+    <Compile Include="Net\Protocol\SceneKickPlayerRsp.cs" />
+    <Compile Include="Net\Protocol\SceneMonsterInfo.cs" />
+    <Compile Include="Net\Protocol\SceneNpcInfo.cs" />
+    <Compile Include="Net\Protocol\ScenePlayerInfo.cs" />
+    <Compile Include="Net\Protocol\ScenePlayerInfoNotify.cs" />
+    <Compile Include="Net\Protocol\ScenePlayerLocationNotify.cs" />
+    <Compile Include="Net\Protocol\SceneReliquaryInfo.cs" />
+    <Compile Include="Net\Protocol\SceneTeamAvatar.cs" />
+    <Compile Include="Net\Protocol\SceneTeamUpdateNotify.cs" />
+    <Compile Include="Net\Protocol\SceneTimeNotify.cs" />
+    <Compile Include="Net\Protocol\SceneTransToPointReq.cs" />
+    <Compile Include="Net\Protocol\SceneTransToPointRsp.cs" />
+    <Compile Include="Net\Protocol\SceneUnlockInfo.cs" />
+    <Compile Include="Net\Protocol\SceneUnlockInfoNotify.cs" />
+    <Compile Include="Net\Protocol\SceneWeaponInfo.cs" />
+    <Compile Include="Net\Protocol\ScreenInfo.cs" />
+    <Compile Include="Net\Protocol\SelectWorktopOptionReq.cs" />
+    <Compile Include="Net\Protocol\SelectWorktopOptionRsp.cs" />
+    <Compile Include="Net\Protocol\ServantInfo.cs" />
+    <Compile Include="Net\Protocol\ServerBuff.cs" />
+    <Compile Include="Net\Protocol\ServerTimeNotify.cs" />
+    <Compile Include="Net\Protocol\SetEntityClientDataNotify.cs" />
+    <Compile Include="Net\Protocol\SetEquipLockStateReq.cs" />
+    <Compile Include="Net\Protocol\SetEquipLockStateRsp.cs" />
+    <Compile Include="Net\Protocol\SetNameCardReq.cs" />
+    <Compile Include="Net\Protocol\SetNameCardRsp.cs" />
+    <Compile Include="Net\Protocol\SetPlayerBirthdayReq.cs" />
+    <Compile Include="Net\Protocol\SetPlayerBirthdayRsp.cs" />
+    <Compile Include="Net\Protocol\SetPlayerBornDataReq.cs" />
+    <Compile Include="Net\Protocol\SetPlayerBornDataRsp.cs" />
+    <Compile Include="Net\Protocol\SetPlayerHeadImageReq.cs" />
+    <Compile Include="Net\Protocol\SetPlayerHeadImageRsp.cs" />
+    <Compile Include="Net\Protocol\SetPlayerNameReq.cs" />
+    <Compile Include="Net\Protocol\SetPlayerNameRsp.cs" />
+    <Compile Include="Net\Protocol\SetPlayerPropReq.cs" />
+    <Compile Include="Net\Protocol\SetPlayerPropRsp.cs" />
+    <Compile Include="Net\Protocol\SetPlayerSignatureReq.cs" />
+    <Compile Include="Net\Protocol\SetPlayerSignatureRsp.cs" />
+    <Compile Include="Net\Protocol\SetUpAvatarTeamReq.cs" />
+    <Compile Include="Net\Protocol\SetUpAvatarTeamRsp.cs" />
+    <Compile Include="Net\Protocol\Shop.cs" />
+    <Compile Include="Net\Protocol\ShopCardProduct.cs" />
+    <Compile Include="Net\Protocol\ShopConcertProduct.cs" />
+    <Compile Include="Net\Protocol\ShopGoods.cs" />
+    <Compile Include="Net\Protocol\ShopGoodsDisableType.cs" />
+    <Compile Include="Net\Protocol\ShopMcoinProduct.cs" />
+    <Compile Include="Net\Protocol\ShortAbilityHashPair.cs" />
+    <Compile Include="Net\Protocol\ShowAvatarInfo.cs" />
+    <Compile Include="Net\Protocol\ShowEquip.cs" />
+    <Compile Include="Net\Protocol\SocialDetail.cs" />
+    <Compile Include="Net\Protocol\SocialShowAvatarInfo.cs" />
+    <Compile Include="Net\Protocol\StatueGadgetInfo.cs" />
+    <Compile Include="Net\Protocol\StopServerInfo.cs" />
+    <Compile Include="Net\Protocol\StoreItemChangeNotify.cs" />
+    <Compile Include="Net\Protocol\StoreItemDelNotify.cs" />
+    <Compile Include="Net\Protocol\StoreType.cs" />
+    <Compile Include="Net\Protocol\StoreWeightLimitNotify.cs" />
+    <Compile Include="Net\Protocol\StrengthenPointData.cs" />
+    <Compile Include="Net\Protocol\SyncScenePlayTeamEntityNotify.cs" />
+    <Compile Include="Net\Protocol\SyncTeamEntityNotify.cs" />
+    <Compile Include="Net\Protocol\SystemHint.cs" />
+    <Compile Include="Net\Protocol\TakeAchievementRewardReq.cs" />
+    <Compile Include="Net\Protocol\TakeoffEquipReq.cs" />
+    <Compile Include="Net\Protocol\TakeoffEquipRsp.cs" />
+    <Compile Include="Net\Protocol\TakePlayerLevelRewardReq.cs" />
+    <Compile Include="Net\Protocol\TakePlayerLevelRewardRsp.cs" />
+    <Compile Include="Net\Protocol\TeamEnterSceneInfo.cs" />
+    <Compile Include="Net\Protocol\TeamEntityInfo.cs" />
+    <Compile Include="Net\Protocol\TeamResonanceChangeNotify.cs" />
+    <Compile Include="Net\Protocol\TowerAllDataRsp.cs" />
+    <Compile Include="Net\Protocol\TowerBuffSelectReq.cs" />
+    <Compile Include="Net\Protocol\TowerBuffSelectRsp.cs" />
+    <Compile Include="Net\Protocol\TowerCurLevelRecord.cs" />
+    <Compile Include="Net\Protocol\TowerCurLevelRecordChangeNotify.cs" />
+    <Compile Include="Net\Protocol\TowerEnterLevelReq.cs" />
+    <Compile Include="Net\Protocol\TowerEnterLevelRsp.cs" />
+    <Compile Include="Net\Protocol\TowerFloorRecord.cs" />
+    <Compile Include="Net\Protocol\TowerFloorRecordChangeNotify.cs" />
+    <Compile Include="Net\Protocol\TowerLevelEndNotify.cs" />
+    <Compile Include="Net\Protocol\TowerLevelRecord.cs" />
+    <Compile Include="Net\Protocol\TowerLevelStarCondData.cs" />
+    <Compile Include="Net\Protocol\TowerLevelStarCondNotify.cs" />
+    <Compile Include="Net\Protocol\TowerMonthlyBrief.cs" />
+    <Compile Include="Net\Protocol\TowerTeam.cs" />
+    <Compile Include="Net\Protocol\TowerTeamSelectReq.cs" />
+    <Compile Include="Net\Protocol\TowerTeamSelectRsp.cs" />
+    <Compile Include="Net\Protocol\TrackingIOInfo.cs" />
+    <Compile Include="Net\Protocol\TrialAvatarGrantRecord.cs" />
+    <Compile Include="Net\Protocol\TrialAvatarInfo.cs" />
+    <Compile Include="Net\Protocol\Uint32Pair.cs" />
+    <Compile Include="Net\Protocol\UnionCmd.cs" />
+    <Compile Include="Net\Protocol\UnionCmdNotify.cs" />
+    <Compile Include="Net\Protocol\UnlockAvatarTalentReq.cs" />
+    <Compile Include="Net\Protocol\UnlockAvatarTalentRsp.cs" />
+    <Compile Include="Net\Protocol\UnlockNameCardNotify.cs" />
+    <Compile Include="Net\Protocol\UpdatePlayerShowAvatarListReq.cs" />
+    <Compile Include="Net\Protocol\UpdatePlayerShowAvatarListRsp.cs" />
+    <Compile Include="Net\Protocol\UseItemReq.cs" />
+    <Compile Include="Net\Protocol\UseItemRsp.cs" />
+    <Compile Include="Net\Protocol\Vector.cs" />
+    <Compile Include="Net\Protocol\VehicleInfo.cs" />
+    <Compile Include="Net\Protocol\VehicleInteractReq.cs" />
+    <Compile Include="Net\Protocol\VehicleInteractRsp.cs" />
+    <Compile Include="Net\Protocol\VehicleInteractType.cs" />
+    <Compile Include="Net\Protocol\VehicleLocationInfo.cs" />
+    <Compile Include="Net\Protocol\VehicleMember.cs" />
+    <Compile Include="Net\Protocol\VehicleSpawnReq.cs" />
+    <Compile Include="Net\Protocol\VehicleSpawnRsp.cs" />
+    <Compile Include="Net\Protocol\VehicleStaminaNotify.cs" />
+    <Compile Include="Net\Protocol\VisionType.cs" />
+    <Compile Include="Net\Protocol\Weapon.cs" />
+    <Compile Include="Net\Protocol\WeaponAwakenReq.cs" />
+    <Compile Include="Net\Protocol\WeaponAwakenRsp.cs" />
+    <Compile Include="Net\Protocol\WeaponPromoteReq.cs" />
+    <Compile Include="Net\Protocol\WeaponPromoteRsp.cs" />
+    <Compile Include="Net\Protocol\WeaponUpgradeReq.cs" />
+    <Compile Include="Net\Protocol\WeaponUpgradeRsp.cs" />
+    <Compile Include="Net\Protocol\WearEquipReq.cs" />
+    <Compile Include="Net\Protocol\WearEquipRsp.cs" />
+    <Compile Include="Net\Protocol\WeatherInfo.cs" />
+    <Compile Include="Net\Protocol\WeeklyBossResinDiscountInfo.cs" />
+    <Compile Include="Net\Protocol\WorktopInfo.cs" />
+    <Compile Include="Net\Protocol\WorktopOptionNotify.cs" />
+    <Compile Include="Net\Protocol\WorldDataNotify.cs" />
+    <Compile Include="Net\Protocol\WorldPlayerDieNotify.cs" />
+    <Compile Include="Net\Protocol\WorldPlayerInfoNotify.cs" />
+    <Compile Include="Net\Protocol\WorldPlayerLocationNotify.cs" />
+    <Compile Include="Net\Protocol\WorldPlayerReviveReq.cs" />
+    <Compile Include="Net\Protocol\WorldPlayerReviveRsp.cs" />
+    <Compile Include="Net\Protocol\WorldPlayerRTTNotify.cs" />
+    <Compile Include="Packet\Handlers\GetPlayerTokenRspHandler.cs" />
+    <Compile Include="Packet\Handlers\IPacketHandler.cs" />
+    <Compile Include="Packet\PacketHandlerFactory.cs" />
+    <Compile Include="Packet\PacketOpcodes.cs" />
+    <Compile Include="Packet\Packet.cs" />
+    <Compile Include="Sniffer.cs" />
+    <Compile Include="Utils\MT19937.cs" />
+    <Compile Include="Net\Handshake.cs" />
+    <Compile Include="Net\IKCP.cs" />
+    <Compile Include="Net\KCP.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ByteArray.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\Lemonade.csproj.AssemblyReference.cache" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>

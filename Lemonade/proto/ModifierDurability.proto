@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+
+message ModifierDurability {
+	float reduce_ratio = 1;
+	float remaining_durability = 2;
+}

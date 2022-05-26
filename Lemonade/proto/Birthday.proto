@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+
+message Birthday {
+	uint32 month = 1;
+	uint32 day = 2;
+}

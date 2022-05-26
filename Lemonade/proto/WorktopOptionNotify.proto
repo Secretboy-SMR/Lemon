@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+message WorktopOptionNotify {
+	uint32 gadget_entity_id = 1;
+	repeated uint32 option_list = 2;
+}

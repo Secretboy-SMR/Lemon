@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+
+message CoopCg {
+	uint32 id = 1;
+	bool is_unlock = 2;
+}

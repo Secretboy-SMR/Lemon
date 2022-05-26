@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+
+message ShortAbilityHashPair {
+	int32 ability_name_hash = 1;
+	int32 ability_config_hash = 2;
+}

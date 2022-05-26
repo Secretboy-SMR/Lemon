@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+
+message Vector {
+	float X = 1;
+	float Y = 2;
+	float Z = 3;
+}

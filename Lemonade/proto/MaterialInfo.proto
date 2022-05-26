@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+message MaterialInfo {
+	uint64 guid = 1;
+	uint32 count = 2;
+}

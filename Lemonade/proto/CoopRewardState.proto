@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+enum CoopRewardState {
+	Unlock = 0;
+	Lock = 1;
+	Taken = 2;
+}

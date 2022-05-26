@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+
+message AbilityString {
+	oneof Type {
+		string str = 1;
+		uint32 hash = 2;
+	}
+}

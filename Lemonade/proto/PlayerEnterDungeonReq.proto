@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+message PlayerEnterDungeonReq {
+	uint32 point_id = 1;
+	uint32 dungeon_id = 2;
+}

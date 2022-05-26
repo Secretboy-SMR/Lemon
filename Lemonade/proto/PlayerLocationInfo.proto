@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+import "Vector.proto";
+
+message PlayerLocationInfo {
+	uint32 uid = 1;
+	Vector pos = 2;
+	Vector rot = 3;
+}

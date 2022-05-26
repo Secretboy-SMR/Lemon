@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+import "EquipParam.proto";
+
+message GetMailItemRsp {
+  int32 retcode = 1;
+  repeated uint32 mail_id_list = 2;
+  repeated EquipParam item_list = 3;
+}

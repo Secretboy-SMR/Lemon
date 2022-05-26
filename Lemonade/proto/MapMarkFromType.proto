@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+enum MapMarkFromType {
+	NOE = 0;
+	MONSTER = 1;
+	QUEST = 2;
+}

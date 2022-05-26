@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option csharp_namespace = "Lemonade.Net.Protocol";
+
+import "ItemParam.proto";
+import "MaterialDeleteInfo.proto";
+
+message MailItem {
+  ItemParam item_param = 1;
+  MaterialDeleteInfo delete_info = 2;
+}
