@@ -39,7 +39,7 @@ public class Handshake
             throw new ArgumentException("Handshake packet too small", "buffer");
 
         Magic1 = buffer.GetUInt32(0, true);
-        Conv = buffer.GetUInt64(4, false);
+        Conv = buffer.GetUInt64(4, true);
         Data = buffer.GetUInt32(12, true);
         Magic2 = buffer.GetUInt32(16, true);
 

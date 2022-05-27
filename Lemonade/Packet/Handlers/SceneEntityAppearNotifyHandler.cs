@@ -10,7 +10,7 @@ namespace Lemonade.Packet.Handlers;
 
 public class SceneEntityAppearNotifyHandler : PacketHandlerFactory.IPacketHandler
 {
-    public new async Task HandleAsync(Packet incPacket, Session session)
+    public async Task HandleAsync(Packet incPacket, Session session)
     {
         // session.world
         SceneEntityAppearNotify appearNotify = SceneEntityAppearNotify.Parser.ParseFrom(incPacket.data);

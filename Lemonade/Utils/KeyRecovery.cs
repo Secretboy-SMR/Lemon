@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Serilog;
 
 //ehhhhh using this is just less moving bins later
 
@@ -186,7 +187,11 @@ DTj3FrBP73CkCAV4elPxM1suoU/Rkq2TX+qBYLtzhY5KlvHv9acKL7TT1LVdMA=="},
                 return MTKey.NoOp;
 
             if (Keys.ContainsKey(firstBytes))
+            {
+                Log.Information("Key Found, First Bytes: {a}", firstBytes);
                 return MTKey.FromBase64(Keys[firstBytes]);
+
+            }
             return null;
         }
     }

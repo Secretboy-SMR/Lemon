@@ -8,7 +8,7 @@ namespace Lemonade.Packet.Handlers;
 
 public class CombatInvocationsNotifyHandler : PacketHandlerFactory.IPacketHandler
 {
-    public new async Task HandleAsync(Packet incPacket, Session session)
+    public async Task HandleAsync(Packet incPacket, Session session)
     {
         CombatInvocationsNotify cin = CombatInvocationsNotify.Parser.ParseFrom(incPacket.data);
 

@@ -8,9 +8,9 @@ using Lemonade.Net.Protocol;
 
 namespace Lemonade.Packet.Handlers
 {
-    public class SceneTeamUpdateNotifyHandler
+    public class SceneTeamUpdateNotifyHandler: PacketHandlerFactory.IPacketHandler
     {
-        public new async Task HandleAsync(Packet incPacket, Session session)
+        public async Task HandleAsync(Packet incPacket, Session session)
         {
             // session.world
             SceneTeamUpdateNotify appearNotify = SceneTeamUpdateNotify.Parser.ParseFrom(incPacket.data);

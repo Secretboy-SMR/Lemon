@@ -82,6 +82,7 @@ public class Session
 
     }
 
+    private readonly object lockObj = new object();
 
     private IKCP _ikcp;
     
@@ -193,7 +194,10 @@ public class Session
             throw new Exception("Session not initialized yet...");
         }
 
-        _ikcp.Update(tsCurrent);
+        lock (lockObj)
+        {
+            _ikcp.Update(tsCurrent);
+        }
     }
 
     public uint Check(uint tsCurrent)
@@ -203,8 +207,12 @@ public class Session
             throw new Exception("Session not initialized yet...");
         }
 
-
-        var delay = _ikcp.Check(tsCurrent) - tsCurrent;
+        var delay = 20u;
+        
+        lock (lockObj)
+        {
+            delay = _ikcp.Check(tsCurrent) - tsCurrent;
+        }
 
         return delay;
     }
@@ -222,8 +230,10 @@ public class Session
 
         var buffer = new byte[size];
 
-
-        _ikcp.Recv(buffer, 0, buffer.Length);
+        lock (lockObj)
+        {
+            _ikcp.Recv(buffer, 0, buffer.Length);
+        }
 
 
         return buffer.ToArray();
@@ -236,11 +246,9 @@ public class Session
             throw new Exception("Session not initialized yet...");
         }
 
-        var a = _ikcp.Input(buff, 0, buff.Length);
-
-        if (a == -1)
+        lock (lockObj)
         {
-            Log.Information("Conv mismatch");
+            _ikcp.Input(buff, 0, buff.Length);
         }
     }
 

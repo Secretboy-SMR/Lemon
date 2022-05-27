@@ -12,10 +12,12 @@ public class GetPlayerTokenRspHandler : PacketHandlerFactory.IPacketHandler
     {
         GetPlayerTokenRsp tokenRsp = GetPlayerTokenRsp.Parser.ParseFrom(incPacket.data);
 
+        
         if (tokenRsp != null)
         {
-            session.handler.Client.Key = new MTKey(tokenRsp.SecretKeySeed);
-            session.Key = new MTKey(tokenRsp.SecretKeySeed);
+            var key = new MTKey(MiHoYoKeyGenerator.GenerateKey(tokenRsp.SecretKeySeed));
+            session.handler.Client.Key = key;
+            session.Key = key;
         }
 
         

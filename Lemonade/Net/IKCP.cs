@@ -104,10 +104,7 @@ namespace Lemonade.Net
             int pos = offset;
             offset += 8;
             //Console.WriteLine(((ulong)p[pos + 7] << 56));
-            return ((ulong)p[pos + 0] << 00) | ((ulong)p[pos + 1] << 08)
-                                              | ((ulong)p[pos + 2] << 16) | ((ulong)p[pos + 3] << 24)
-                                              | ((ulong)p[pos + 4] << 32) | ((ulong)p[pos + 5] << 40)
-                                              | ((ulong)p[pos + 6] << 48) | ((ulong)p[pos + 7] << 56);
+            return Utils.ByteArray.GetUInt64(p, pos, true);
 
         }
 
@@ -588,6 +585,8 @@ namespace Lemonade.Net
             for (node = rcv_buf_.Last; node != null; node = prev)
             {
                 var seg = node.Value;
+                if (node.Previous == null) continue;
+                
                 prev = node.Previous;
                 if (seg.sn == sn)
                 {
