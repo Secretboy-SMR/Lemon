@@ -2,7 +2,8 @@
 
 
 
-public enum PacketOpcodes {
+public enum PacketOpcodes
+{
     // Empty
     Invalid = 0,
 

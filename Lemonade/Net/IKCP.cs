@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 // Modified version of KCP-Dotnet 
 // conv size increased to ulong
+// added two break points if node is null
+// not sure if thats intended but it is what it is
+
 #pragma warning disable 8618, 8625, 8600, 8602, 0414
 namespace Lemonade.Net
 {
@@ -66,7 +69,7 @@ namespace Lemonade.Net
         }
 
         // decode 16 bits unsigned int (lsb)
-        
+
         public static ushort ikcp_decode16u(byte[] p, ref int offset)
         {
             int pos = offset;
@@ -341,6 +344,7 @@ namespace Lemonade.Net
             while (rcv_buf_.Count > 0)
             {
                 var node = rcv_buf_.First;
+                if (node is null) break;
                 var seg = node.Value;
                 if (seg.sn == rcv_nxt_ && nrcv_que_ < rcv_wnd_)
                 {
@@ -374,6 +378,7 @@ namespace Lemonade.Net
                 return -1;
 
             var node = rcv_queue_.First;
+            if (node is null) return -1;
             var seg = node.Value;
             if (seg.frg == 0)
                 return seg.data.Length;
@@ -611,6 +616,7 @@ namespace Lemonade.Net
             while (rcv_buf_.Count > 0)
             {
                 node = rcv_buf_.First;
+                if (node is null) break;
                 var seg = node.Value;
                 if (seg.sn == rcv_nxt_ && nrcv_que_ < rcv_wnd_)
                 {
@@ -644,8 +650,8 @@ namespace Lemonade.Net
                     break;
 
                 ulong conv = ikcp_decode64u(data, ref offset);
-                if (conv_ != conv)
-                    return -1;
+
+
                 uint cmd = ikcp_decode8u(data, ref offset);
                 uint frg = ikcp_decode8u(data, ref offset);
                 uint wnd = ikcp_decode16u(data, ref offset);
@@ -1083,8 +1089,8 @@ namespace Lemonade.Net
         {
             if (interval > 5000)
                 interval = 5000;
-            else if (interval < 10)
-                interval = 10;
+            else if (interval < 1)
+                interval = 1;
 
             interval_ = (uint)interval;
             return 0;
@@ -1113,8 +1119,8 @@ namespace Lemonade.Net
             {
                 if (interval > 5000)
                     interval = 5000;
-                else if (interval < 10)
-                    interval = 10;
+                else if (interval < 1)
+                    interval = 1;
 
                 interval_ = (uint)interval;
             }

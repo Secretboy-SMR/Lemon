@@ -1,43 +1,53 @@
-﻿using System.Windows;
+﻿using Lemonade.Utils;
+using Serilog;
 using System;
-using System.CodeDom.Compiler;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Threading;
+
 
 namespace Lemonade;
 
 public class App
 {
 
-    
     public static void Main()
     {
-        Sniffer sniffer = new Sniffer();
-        
+
+        Log.Logger = new LoggerConfiguration().MinimumLevel.Debug().WriteTo.Console().CreateLogger();
+
+
+        var sniffer = new Sniffer.Sniffer();
+
+
         sniffer.Start();
 
+
+
         var running = true;
-        Console.CancelKeyPress += async delegate(object sender, ConsoleCancelEventArgs args)
+
+        Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs args)
         {
             sniffer.Close();
-            Console.WriteLine("Yo!");
+            Log.CloseAndFlush();
 
-            
-            Console.WriteLine("Done: press any key to close.");
-            Console.ReadLine();
+
+            Console.WriteLine("Done! Press any key to close.");
+
+
             running = false;
+            MonotonicTime.Close();
             args.Cancel = true;
+            Console.ReadKey();
+
+
+
+
 
 
         };
 
-        while (running)
-        {
-            Task.Delay(1000);
-        }
-        
-        
+        SpinWait.SpinUntil(() => !running);
+
+
     }
-    
+
 }

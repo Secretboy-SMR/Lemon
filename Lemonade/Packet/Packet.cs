@@ -1,21 +1,17 @@
-﻿using System;
-using System.Linq;
-
-using Google.Protobuf;
-
-using Lemonade.Utils;
+﻿using Google.Protobuf;
 using Lemonade.Net.Protocol;
-
-
+using Lemonade.Utils;
 // using Serilog;
 // using System.IO;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
 
 namespace Lemonade.Packet
 {
 
     //this should theoretically work
-    public class Packet 
+    public class Packet
     {
         public const int HEADER_LEN = 8;
         public const int MAGIC_LEN = 2;
@@ -37,11 +33,15 @@ namespace Lemonade.Packet
         public Packet(PacketOpcodes msgType = PacketOpcodes.Invalid) { type = msgType; }
         public Packet(byte[] incomingData, bool noCopy = false) { Decode(noCopy ? incomingData : incomingData.ToArray()); }
 
+        public Packet(ByteString data)
+        {
+            this.data = data.ToByteArray();
+        }
         public int Length
         {
             get
             {
-                if(metaData == null) metaDataLen = 0;
+                if (metaData == null) metaDataLen = 0;
                 return HEADER_LEN + MAGIC_LEN * 2 +
                 (metaData == null ? 0 : metaData.CalculateSize()) +
                 GetDataLen();

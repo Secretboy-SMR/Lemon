@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PacketDotNet;
+using Serilog;
+using SharpPcap;
+using SharpPcap.LibPcap;
+using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading;
-using System.Threading.Tasks;
-using PacketDotNet;
-using SharpPcap;
-using SharpPcap.LibPcap;
-using Serilog;
 
-namespace Lemonade;
+
+
+namespace Lemonade.Sniffer;
 
 
 
@@ -24,16 +25,17 @@ public class Sniffer
 
     private Thread WorkingThread;
 
-    private Queue<RawCapture> PacketQueue;
+    private ConcurrentQueue<RawCapture> PacketQueue;
     
     public Sniffer()
     {
+        PacketQueue = new();
 
     }
 
     public void onPacketArrival(object sender, PacketCapture e)
     {
-        Console.WriteLine("ehehe");
+
         PacketQueue.Enqueue(e.GetPacket());
     }
 
@@ -52,7 +54,7 @@ public class Sniffer
     public void SharpPcapCapturer()
     {
         pcapDevice = GetPcapDevice();
-        
+
         pcapDevice.OnPacketArrival += onPacketArrival;
         Console.WriteLine();
         int read_timeout = 1000;
@@ -61,11 +63,11 @@ public class Sniffer
 
         pcapDevice.StartCapture();
 
-            
-        Console.WriteLine("-- Listening on {0} {1}, hit 'Control + C' to stop...", (object) pcapDevice.Name, (object) pcapDevice.Description);
 
-        
-        
+        Log.Information("-- Listening on {0} {1}, hit 'Control + C' to stop...", (object)pcapDevice.Name, (object)pcapDevice.Description);
+
+
+
     }
 
 
@@ -75,21 +77,22 @@ public class Sniffer
         {
             try
             {
-                var rawPacket = PacketQueue.Dequeue();
-                if (rawPacket != null)
+
+
+                if (PacketQueue.TryDequeue(out var rawPacket))
                 {
-                    //handle it
+                    handler.HandleRawCapture(rawPacket);
                 }
                 else
                 {
-                    Thread.Sleep(100);
+                    Thread.Sleep(10);
                 }
 
             }
             catch (Exception e)
             {
                 Log.Error(e.ToString());
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
 
         }
@@ -97,17 +100,16 @@ public class Sniffer
     public void Close()
     {
         pcapDevice.StopCapture();
-        Console.WriteLine("-- Capture stopped.");
-        Console.WriteLine(pcapDevice.Statistics.ToString());
+        Log.Information("-- Capture stopped.");
+        Log.Information(pcapDevice.Statistics.ToString());
 
         running = false;
 
         WorkingThread.Join();
-        
-        Console.WriteLine("done cleaning up");
+
     }
 
-    
+
     // taken from devove's chrome.dll
     internal static LibPcapLiveDevice GetPcapDevice()
     {

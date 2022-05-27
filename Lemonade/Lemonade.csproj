@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -43,7 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\" />
+    <Compile Include="Packet\Handlers\SceneEntityDisappearNotifyHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.21.0-rc2" />
@@ -57,7 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
-    <Compile Include="Handler.cs" />
+    <Compile Include="Packet\Handlers\AbilityInvocationsNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\EnterScenePeerNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\PlayerEnterSceneNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\SceneEntityAppearNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\SceneTeamUpdateNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\UnionCmdNotifyHandler.cs" />
+    <Compile Include="World\Damage\AttackInfo.cs" />
+    <Compile Include="World\Data\AvatarInfo.cs" />
+    <Compile Include="World\Encounter\Encounter.cs" />
     <Compile Include="Net\Protocol\AbilityAppliedAbility.cs" />
     <Compile Include="Net\Protocol\AbilityAppliedModifier.cs" />
     <Compile Include="Net\Protocol\AbilityAttachedModifier.cs" />
@@ -571,22 +580,30 @@
     <Compile Include="Net\Protocol\WorldPlayerReviveReq.cs" />
     <Compile Include="Net\Protocol\WorldPlayerReviveRsp.cs" />
     <Compile Include="Net\Protocol\WorldPlayerRTTNotify.cs" />
+    <Compile Include="OutputManager.cs" />
+    <Compile Include="Packet\Handlers\CombatInvocationsNotifyHandler.cs" />
     <Compile Include="Packet\Handlers\GetPlayerTokenRspHandler.cs" />
-    <Compile Include="Packet\Handlers\IPacketHandler.cs" />
     <Compile Include="Packet\PacketHandlerFactory.cs" />
     <Compile Include="Packet\PacketOpcodes.cs" />
     <Compile Include="Packet\Packet.cs" />
-    <Compile Include="Sniffer.cs" />
-    <Compile Include="Utils\MT19937.cs" />
+    <Compile Include="World\Entity\Avatar.cs" />
+    <Compile Include="World\Entity\IEntity.cs" />
+    <Compile Include="World\Entity\Gadget.cs" />
+    <Compile Include="World\Entity\Monster.cs" />
+    <Compile Include="World\Entity\Team.cs" />
+    <Compile Include="World\Player.cs" />
+    <Compile Include="Sniffer\Sniffer.cs" />
     <Compile Include="Net\Handshake.cs" />
     <Compile Include="Net\IKCP.cs" />
-    <Compile Include="Net\KCP.cs" />
-    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Include="Net\Session.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sniffer\Handler.cs" />
     <Compile Include="Utils\ByteArray.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="obj\Debug\Lemonade.csproj.AssemblyReference.cache" />
+    <Compile Include="Utils\KeyRecovery.cs" />
+    <Compile Include="Utils\MTKey.cs" />
+    <Compile Include="Utils\TimeCS.cs" />
+    <Compile Include="World\Scene.cs" />
+    <Compile Include="World\World.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

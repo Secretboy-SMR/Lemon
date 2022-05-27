@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Lemonade.Net;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Google.Protobuf;
 
 namespace Lemonade.Packet;
 
 public class PacketHandlerFactory
 {
     private static Dictionary<PacketOpcodes, Type> Handlers = new();
-    
+
     public static void InitializeFactory()
     {
         var types = Assembly.GetExecutingAssembly().GetTypes()
@@ -23,7 +25,7 @@ public class PacketHandlerFactory
                 Handlers.Add(typeEnum, h);
         Log.Debug($"Loaded {Handlers.Count} PacketHandlers");
     }
-    
+
     public static IPacketHandler NewInstance(PacketOpcodes msgType)
     {
 
@@ -35,18 +37,39 @@ public class PacketHandlerFactory
         }
         else
         {
-            Log.Warning("Packet {ada} not yet implemented", msgType);
+            //Log.Warning("Packet {ada} not yet implemented", msgType);
             return null;
         }
 
         return null;
     }
-    
+
     public interface IPacketHandler
     {
-        Task HandleAsync(Packet packet);
-        
+        Task HandleAsync(Packet packet, Session session);
+
     }
     
+}
+
+/*
+
+using Lemonade.Net;
+using Lemonade.Net.Protocol;
+using Lemonade.Utils;
+using System.Threading.Tasks;
+
+
+namespace Lemonade.Packet.Handlers;
+
+public class $NAME$ : PacketHandlerFactory.IPacketHandler
+{
+    public new async Task HandleAsync(Packet IncPacket, Session session)
+
+    {
+
+    }
 
 }
+
+*/
