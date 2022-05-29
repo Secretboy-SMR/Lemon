@@ -6,11 +6,11 @@ public class AttackInfo
 {
     public long Timestamp;
 
-    public AttackResult attackResult;
+    public AttackResult AttackResult;
 
     public AttackInfo(AttackResult ar)
     {
-        attackResult = ar;
+        AttackResult = ar;
         Timestamp = System.DateTime.Now.Ticks;
     }
 

@@ -11,6 +11,8 @@ public class AbilityInvocationsNotifyHandler : PacketHandlerFactory.IPacketHandl
     public async Task HandleAsync(Packet incPacket, Session session)
     {
     //todo: actually bother handling this
+    //todo: ClientAbilityChangeNotify
+    //todo: ClientAbilityInitFinishNotify
     }
 
 }

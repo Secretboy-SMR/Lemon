@@ -11,7 +11,7 @@ namespace Lemonade.Packet;
 
 public class PacketHandlerFactory
 {
-    private static Dictionary<PacketOpcodes, Type> Handlers = new();
+    private static Dictionary<PacketOpcodes, Type> _handlers = new();
 
     public static void InitializeFactory()
     {
@@ -22,14 +22,14 @@ public class PacketHandlerFactory
             //the handlers will be named _______Handler
             //i would do the name itself but its already taken by the proto classes
             if (Enum.TryParse(h.Name.Substring(0, h.Name.Length - 7), out PacketOpcodes typeEnum))
-                Handlers.Add(typeEnum, h);
-        Log.Debug($"Loaded {Handlers.Count} PacketHandlers");
+                _handlers.Add(typeEnum, h);
+        Log.Debug($"Loaded {_handlers.Count} PacketHandlers");
     }
 
-    public static IPacketHandler NewInstance(PacketOpcodes msgType)
+    public static IPacketHandler? NewInstance(PacketOpcodes msgType)
     {
 
-        if (Handlers.TryGetValue(msgType, out var responseType))
+        if (_handlers.TryGetValue(msgType, out var responseType))
         {
             var constructor = responseType.GetConstructor(new Type[] { });
 

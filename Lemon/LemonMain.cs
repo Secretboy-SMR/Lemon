@@ -7,7 +7,7 @@ namespace Lemon
     {
         public void InitPlugin(TabPage pluginScreenSpace, Label pluginStatusText)
         {
-
+            
         }
 
         public void DeInitPlugin()

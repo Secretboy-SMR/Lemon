@@ -13,10 +13,9 @@ public class SceneEntityAppearNotifyHandler : PacketHandlerFactory.IPacketHandle
     public async Task HandleAsync(Packet incPacket, Session session)
     {
         // session.world
-        SceneEntityAppearNotify appearNotify = SceneEntityAppearNotify.Parser.ParseFrom(incPacket.data);
-        foreach (SceneEntityInfo entityInfo in appearNotify.EntityList)
-        {
-            session.world.addEntity(entityInfo);
-        }
+        SceneEntityAppearNotify appearNotify = SceneEntityAppearNotify.Parser.ParseFrom(incPacket.Data);
+        session.World.AddEntities(appearNotify.EntityList.ToArray());
+
+
     }
 }

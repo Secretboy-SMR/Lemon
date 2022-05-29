@@ -11,7 +11,7 @@ public class Team
     {
         foreach (var sceneTeamAvatar in sceneTeamUpdateNotify.SceneTeamAvatarList)
         {
-            TeamMembers.Add(new Avatar().fromSceneEntityInfo(sceneTeamAvatar.SceneEntityInfo));
+            TeamMembers.Add(new Avatar().FromSceneEntityInfo(sceneTeamAvatar.SceneEntityInfo));
         }
     }
     

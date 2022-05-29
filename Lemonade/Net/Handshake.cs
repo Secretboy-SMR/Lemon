@@ -5,10 +5,10 @@ namespace Lemonade.Net;
 
 public class Handshake
 {
-    public static readonly uint[] MAGIC_CONNECT = { 0xFF, 0xFFFFFFFF };
-    public static readonly uint[] MAGIC_SEND_BACK_CONV = { 0x145, 0x14514545 };
-    public static readonly uint[] MAGIC_DISCONNECT = { 0x194, 0x19419494 };
-    public const int LEN = 20;
+    public static readonly uint[] MagicConnect = { 0xFF, 0xFFFFFFFF };
+    public static readonly uint[] MagicSendBackConv = { 0x145, 0x14514545 };
+    public static readonly uint[] MagicDisconnect = { 0x194, 0x19419494 };
+    public const int Len = 20;
 
     public uint Magic1;
     public ulong Conv;
@@ -35,7 +35,7 @@ public class Handshake
 
     public void Decode(byte[] buffer, uint[] verifyMagic = null)
     {
-        if (buffer.Length < LEN)
+        if (buffer.Length < Len)
             throw new ArgumentException("Handshake packet too small", "buffer");
 
         Magic1 = buffer.GetUInt32(0, true);

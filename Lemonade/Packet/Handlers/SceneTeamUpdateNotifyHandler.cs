@@ -13,7 +13,7 @@ namespace Lemonade.Packet.Handlers
         public async Task HandleAsync(Packet incPacket, Session session)
         {
             // session.world
-            SceneTeamUpdateNotify appearNotify = SceneTeamUpdateNotify.Parser.ParseFrom(incPacket.data);
+            SceneTeamUpdateNotify appearNotify = SceneTeamUpdateNotify.Parser.ParseFrom(incPacket.Data);
             foreach (var sceneTeamAvatar in appearNotify.SceneTeamAvatarList)
             {
                 

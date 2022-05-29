@@ -4,15 +4,15 @@ namespace Lemonade.World.Entity
 {
     public class Gadget : IEntity<Gadget>
     {
-        private int id;
+        private int _id;
         
-        public int entityId
+        public int EntityId
         {
             get;
             set;
         }
 
-        public Gadget fromSceneEntityInfo(SceneEntityInfo sceneEntityInfo)
+        public Gadget FromSceneEntityInfo(SceneEntityInfo sceneEntityInfo)
         {
             
             return this;

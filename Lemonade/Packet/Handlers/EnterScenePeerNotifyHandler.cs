@@ -8,9 +8,9 @@ namespace Lemonade.Packet.Handlers;
 
 public class EnterScenePeerNotifyHandler : PacketHandlerFactory.IPacketHandler
 {
-    public async Task HandleAsync(Packet IncPacket, Session session)
+    public async Task HandleAsync(Packet incPacket, Session session)
     {
-        EnterScenePeerNotify enterScenePeerNotify = EnterScenePeerNotify.Parser.ParseFrom(IncPacket.data);
+        EnterScenePeerNotify enterScenePeerNotify = EnterScenePeerNotify.Parser.ParseFrom(incPacket.Data);
         // this one tells client their peerId
     }
 

@@ -5,14 +5,16 @@ using Serilog;
 using SharpPcap;
 using System;
 using System.Threading;
+using Lemonade.Utils;
 
 namespace Lemonade.Sniffer;
 
 public class Handler
 {
-    public Session Client { get; private set; }
-    private Session Server;
+    public Session? Client { get; private set; }
+    private Session? _server;
 
+    public MTKey Key;
 
     public Handler()
     {
@@ -62,7 +64,7 @@ public class Handler
                             //this is shitty but we ignore this
                             Thread.Sleep(1);
 
-                            Server = new Session(handshake.Conv, "Server", this);
+                            _server = new Session(handshake.Conv, "Server", this);
                         }
                         else
                         {
@@ -79,7 +81,7 @@ public class Handler
                         else
                         {
                             Log.Debug("Server Removed: {0}", handshake.Conv);
-                            Server?.Dispose();
+                            _server?.Dispose();
 
                         }
 
@@ -99,7 +101,7 @@ public class Handler
         else
         {
 
-            if (Client is null || Server is null)
+            if (Client is null || _server is null)
             {
                 Log.Information("Ignoring {length} bytes...", packetBytes.Length);
                 return;
@@ -110,7 +112,7 @@ public class Handler
             }
             else
             {
-                Server.Input(packetBytes);
+                _server.Input(packetBytes);
             }
         }
 

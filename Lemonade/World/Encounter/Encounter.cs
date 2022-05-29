@@ -1,6 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Lemonade.Net.Protocol;
+using Lemonade.Utils;
+using Serilog;
+
+using System.Diagnostics;
 
 namespace Lemonade.Encounter
 {
@@ -9,52 +16,125 @@ namespace Lemonade.Encounter
         public int EncounterId { get; set; }
         public string EncounterName { get; set; }
 
-        public Task Timeout;
-        private long latestTS;
+        public Task TimeoutTask;
 
-        private List<AttackResult> Attacks;
+        //in ms
+        public static int timeout = 10000;
+
+        //actual timestamp from system
+        public long startTime;
+        
+        
+        //these two are for relative time
+        public Stopwatch EncounterTimer = new Stopwatch();
+        public Stopwatch PauseTimer = new Stopwatch();
+
+        private long _latestHitTs;
+        private long _earliestHitTs;
+
+
+        private List<AttackResult> _attacks;
 
         private World.World _world;
+        public DelayedMethodCaller methodCaller = new DelayedMethodCaller(timeout);
+        
+        
         public Encounter(World.World world, long timestamp)
         {
-            Attacks = new List<AttackResult>();
+            Log.Information("Encounter Started!");
+            _attacks = new List<AttackResult>();
             _world = world;
-            Task.Run(DPSUpdateLoop);
+            startTime = timestamp;
+            
+            //Task.Run(DpsUpdateLoop);
+        }
+        
+        public Encounter(World.World world, long timestamp, AttackResult attackResult)
+        {
+            Log.Information("Encounter Started!");
+            _attacks = new List<AttackResult>();
+            _world = world;
+            startTime = timestamp;
+
+            EncounterTimer.Start();
+            //theoretically should always be 0 but who knows 
+            _earliestHitTs = EncounterTimer.ElapsedMilliseconds;
+            
+            
+            AddNewAttack(attackResult);
+            
+            //Task.Run(DpsUpdateLoop);
+        }
+
+        public void SetEncounterTimerPauseState(bool flag)
+        {
+            if (flag)
+            {
+                EncounterTimer.Stop();
+                PauseTimer.Restart();
+
+
+            }
+            else
+            {
+                EncounterTimer.Start();
+                PauseTimer.Stop();
+
+            }
         }
 
         public void AddNewAttack(AttackResult result)
         {
-            Attacks.Add(result);
-            latestTS = System.DateTime.Now.Ticks;
+
+            _attacks.Add(result);
+
+            _latestHitTs = EncounterTimer.ElapsedMilliseconds;
             
-            Timeout = Task.Run(checkTimeout);
-
+            
+            //if this is called repeatedly in an interval less than 10 seconds, then the func doesnt get called
+            methodCaller.CallMethod(CloseEncounter);
+            
+            
         }
-
-        public void checkTimeout()
-        {
-            Timeout.Wait(30000);
-            //allowing for some error
-            if (latestTS - System.DateTime.Now.Ticks > 31000)
-            {
-                CloseEncounter();
-            }
-        }
+        
 
 
 
-        public async Task DPSUpdateLoop()
+        public async Task DpsUpdateLoop()
         {
             //TODO: implement actual dps calcs
             
             await Task.Delay(500);
-            _ = DPSUpdateLoop();
+            _ = DpsUpdateLoop();
         }
-        public void CloseEncounter()
+        
+        public async void CloseEncounter()
         {
-            // do some final calculations
-            // and wrap up
-            // then signal to World.cs that the encounter is over
+
+            
+            //check if encounter has been paused, if so, delay by that time
+
+            if (PauseTimer.ElapsedMilliseconds != 0)
+            {
+                Log.Information("Encounter was paused, skipping");
+                return;
+            }
+
+            
+            var totalDmg = 0.0;
+            var totalTime = _latestHitTs - _earliestHitTs;
+            
+            EncounterTimer.Stop();
+            _attacks.ToList().ForEach(_attacks =>
+            {
+                if (_attacks.AttackerId < (2 << 24))
+                {
+                    totalDmg += _attacks.Damage;
+
+                }
+            });
+            
+            Log.Information("encounter closed: {A} ",(totalDmg/totalTime) * 1000);
             _world.CloseCurrentEncounter();
         }
         

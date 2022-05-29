@@ -7,9 +7,9 @@ namespace Lemonade.World
     public class Player
     {
         public int PeerId;
-        public int UID;
+        public int Uid;
 
-        public int SceneID;
+        public int SceneId;
 
         public List<AvatarInfo> AvatarStorage;
 

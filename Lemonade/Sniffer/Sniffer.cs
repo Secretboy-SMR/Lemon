@@ -17,54 +17,53 @@ namespace Lemonade.Sniffer;
 public class Sniffer
 {
 
-    private Handler handler;
+    private Handler _handler;
 
-    private LibPcapLiveDevice pcapDevice;
+    private LibPcapLiveDevice _pcapDevice;
 
-    public bool running;
+    public bool Running;
 
-    private Thread WorkingThread;
+    private Thread _workingThread;
 
-    private ConcurrentQueue<RawCapture> PacketQueue;
-    
+    private ConcurrentQueue<RawCapture> _packetQueue;
+
     public Sniffer()
     {
-        PacketQueue = new();
-
+        _packetQueue = new();
     }
 
-    public void onPacketArrival(object sender, PacketCapture e)
+    public void OnPacketArrival(object sender, PacketCapture e)
     {
 
-        PacketQueue.Enqueue(e.GetPacket());
+        _packetQueue.Enqueue(e.GetPacket());
     }
 
     public void Start()
     {
         Log.Information("SharpPcap {0}, StartLiveCapture", (object)Pcap.SharpPcapVersion);
-        handler = new Handler();
-        running = true;
+        _handler = new Handler();
+        Running = true;
         SharpPcapCapturer();
-        WorkingThread = new Thread(ProcessPacketQueue);
-        WorkingThread.Name = "ProcessPacketQueue";
-        WorkingThread.Start();
+        _workingThread = new Thread(ProcessPacketQueue);
+        _workingThread.Name = "ProcessPacketQueue";
+        _workingThread.Start();
 
     }
 
     public void SharpPcapCapturer()
     {
-        pcapDevice = GetPcapDevice();
+        _pcapDevice = GetPcapDevice();
 
-        pcapDevice.OnPacketArrival += onPacketArrival;
+        _pcapDevice.OnPacketArrival += OnPacketArrival;
         Console.WriteLine();
-        int read_timeout = 1000;
-        pcapDevice.Open(DeviceModes.Promiscuous | DeviceModes.DataTransferUdp | DeviceModes.NoCaptureLocal, read_timeout);
-        pcapDevice.Filter = "udp portrange 22101-22102";
+        int readTimeout = 1000;
+        _pcapDevice.Open(DeviceModes.Promiscuous | DeviceModes.DataTransferUdp | DeviceModes.NoCaptureLocal, readTimeout);
+        _pcapDevice.Filter = "udp portrange 22101-22102";
 
-        pcapDevice.StartCapture();
+        _pcapDevice.StartCapture();
 
 
-        Log.Information("-- Listening on {0} {1}, hit 'Control + C' to stop...", (object)pcapDevice.Name, (object)pcapDevice.Description);
+        Log.Information("-- Listening on {0} {1}, hit 'Control + C' to stop...", (object)_pcapDevice.Name, (object)_pcapDevice.Description);
 
 
 
@@ -73,15 +72,15 @@ public class Sniffer
 
     public void ProcessPacketQueue()
     {
-        while (running)
+        while (Running)
         {
             try
             {
 
 
-                if (PacketQueue.TryDequeue(out var rawPacket))
+                if (_packetQueue.TryDequeue(out var rawPacket))
                 {
-                    handler.HandleRawCapture(rawPacket);
+                    _handler.HandleRawCapture(rawPacket);
                 }
                 else
                 {
@@ -99,13 +98,13 @@ public class Sniffer
     }
     public void Close()
     {
-        pcapDevice.StopCapture();
+        _pcapDevice.StopCapture();
         Log.Information("-- Capture stopped.");
-        Log.Information(pcapDevice.Statistics.ToString());
+        Log.Information(_pcapDevice.Statistics.ToString());
 
-        running = false;
+        Running = false;
 
-        WorkingThread.Join();
+        _workingThread.Join();
 
     }
 

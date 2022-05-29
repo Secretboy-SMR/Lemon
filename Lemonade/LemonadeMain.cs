@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Lemonade;
 
-public class App
+public class LemonadeMain
 {
 
     public static void Main()
@@ -30,18 +30,14 @@ public class App
             Log.CloseAndFlush();
 
 
-            Console.WriteLine("Done! Press any key to close.");
+
 
 
             running = false;
-            MonotonicTime.Close();
+            TimeCs.Close();
             args.Cancel = true;
-            Console.ReadKey();
-
-
-
-
-
+            
+            Console.WriteLine("Done! Closing...");
 
         };
 

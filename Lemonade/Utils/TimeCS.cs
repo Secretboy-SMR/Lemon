@@ -3,19 +3,26 @@ using System.Threading;
 
 namespace Lemonade.Utils;
 
-public class MonotonicTime
+public class TimeCs
 {
-    private static bool flag = true;
-    public static readonly MonotonicTime DefaultClock = new(now: Environment.TickCount & int.MaxValue);
-    private readonly Thread thread;
+    private static bool _flag = true;
+    public bool _paused = false;
+    
+    public static readonly TimeCs DefaultClock = new(now: Environment.TickCount & int.MaxValue);
+    private readonly Thread _thread;
     public long Resolution;
 
-    public MonotonicTime(long resolution = 10, long now = 0)
+    public void Pause(bool pflag)
+    {
+        _paused = pflag;
+
+    }
+    public TimeCs(long resolution = 10, long now = 0)
     {
         Resolution = resolution;
         Time = now;
-        thread = new Thread(Tick);
-        thread.Start();
+        _thread = new Thread(Tick);
+        _thread.Start();
     }
 
     public long Time { get; private set; }
@@ -24,15 +31,15 @@ public class MonotonicTime
 
     private void Tick()
     {
-        while (flag)
+        while (_flag)
         {
-            Time += Resolution;
+            if(!_paused) Time += Resolution;
             Thread.Sleep((int)Resolution);
         }
     }
 
     public static void Close()
     {
-        flag = false;
+        _flag = false;
     }
 }

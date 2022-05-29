@@ -45,6 +45,21 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.xaml.cs" />
+    <Compile Include="Constants\FightPropType.cs" />
+    <Compile Include="LemonadeMain.cs" />
+    <Compile Include="Logging\GameLogger.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LogEntryAttack.cs" />
+    <Compile Include="Logging\LogEntryHeal.cs" />
+    <Compile Include="Logging\LogEntryMovement.cs" />
+    <Compile Include="Logging\LogEntryStatChange.cs" />
+    <Compile Include="Packet\Handlers\AvatarFightPropUpdateNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\EntityFightPropUpdateNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\EvtCreateGadgetNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\EvtDestroyGadgetNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\LifeStateChangeNotifyHandler.cs" />
+    <Compile Include="Packet\Handlers\PlayerSetPauseReqHandler.cs" />
     <Compile Include="Packet\Handlers\SceneEntityDisappearNotifyHandler.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,13 +73,16 @@
     <PackageReference Include="System.Collections.Immutable" Version="7.0.0-preview.4.22229.4" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
     <Compile Include="Packet\Handlers\AbilityInvocationsNotifyHandler.cs" />
     <Compile Include="Packet\Handlers\EnterScenePeerNotifyHandler.cs" />
     <Compile Include="Packet\Handlers\PlayerEnterSceneNotifyHandler.cs" />
     <Compile Include="Packet\Handlers\SceneEntityAppearNotifyHandler.cs" />
     <Compile Include="Packet\Handlers\SceneTeamUpdateNotifyHandler.cs" />
     <Compile Include="Packet\Handlers\UnionCmdNotifyHandler.cs" />
+    <Compile Include="Utils\ConsoleAllocator.cs" />
+    <Compile Include="Utils\CSVSerializer.cs" />
+    <Compile Include="Utils\DelayedMethodCaller.cs" />
+    <Compile Include="ParserWindow.xaml.cs" />
     <Compile Include="World\Damage\AttackInfo.cs" />
     <Compile Include="World\Data\AvatarInfo.cs" />
     <Compile Include="World\Encounter\Encounter.cs" />
@@ -605,6 +623,10 @@
     <Compile Include="Utils\TimeCS.cs" />
     <Compile Include="World\Scene.cs" />
     <Compile Include="World\World.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="App.xaml" />
+    <Page Include="ParserWindow.xaml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

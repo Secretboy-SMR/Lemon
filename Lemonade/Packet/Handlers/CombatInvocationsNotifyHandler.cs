@@ -10,7 +10,7 @@ public class CombatInvocationsNotifyHandler : PacketHandlerFactory.IPacketHandle
 {
     public async Task HandleAsync(Packet incPacket, Session session)
     {
-        CombatInvocationsNotify cin = CombatInvocationsNotify.Parser.ParseFrom(incPacket.data);
+        CombatInvocationsNotify cin = CombatInvocationsNotify.Parser.ParseFrom(incPacket.Data);
 
         foreach (CombatInvokeEntry combatInvoke in cin.InvokeList)
         {
@@ -20,15 +20,25 @@ public class CombatInvocationsNotifyHandler : PacketHandlerFactory.IPacketHandle
                 case CombatTypeArgument.CombatEvtBeingHit:
 
                     EvtBeingHitInfo evtBeingHitInfo = EvtBeingHitInfo.Parser.ParseFrom(combatInvoke.CombatData);
-                    session.world.handleDamage(evtBeingHitInfo.AttackResult);
+                    session.World.HandleDamage(evtBeingHitInfo.AttackResult);
                     break;
                 case CombatTypeArgument.EntityMove:
 
                     EntityMoveInfo entityMoveInfo = EntityMoveInfo.Parser.ParseFrom(combatInvoke.CombatData);
                     
+                    session.World.MoveEntity(entityMoveInfo.EntityId, entityMoveInfo.MotionInfo);
+                    
                     break;
-                
+                // case CombatTypeArgument.CombatNone:
+                // case CombatTypeArgument.CombatRushMove:
+                // case CombatTypeArgument.CombatSyncTransform:
+                // case CombatTypeArgument.SyncEntityPosition:
+                // case CombatTypeArgument.CombatAnimatorParameterChanged:
+                // case CombatTypeArgument.CombatAnimatorStateChanged:
+                case CombatTypeArgument.CombatFaceToDir:
+                    break;
                 default:
+                    Log.Information("CombatInvokeType {Type} is not processed...", combatInvoke.ArgumentType);
                     break;
 
             }

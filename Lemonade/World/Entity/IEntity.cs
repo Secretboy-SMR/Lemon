@@ -4,12 +4,12 @@ namespace Lemonade.World.Entity;
 
 public interface IEntity<T>
 {
-    public int entityId
+    public int EntityId
     {
         get;
         set;
     }
 
-    public T fromSceneEntityInfo(SceneEntityInfo data);
+    public T FromSceneEntityInfo(SceneEntityInfo data);
 
 }

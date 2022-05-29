@@ -1,4 +1,5 @@
-﻿using Lemonade.Net;
+﻿using System.Linq;
+using Lemonade.Net;
 using Lemonade.Net.Protocol;
 using Lemonade.Utils;
 using System.Threading.Tasks;
@@ -10,12 +11,10 @@ public class SceneEntityDisappearNotifyHandler : PacketHandlerFactory.IPacketHan
 {
     public async Task HandleAsync(Packet incPacket, Session session)
     {
-        SceneEntityDisappearNotify disappearNotify = SceneEntityDisappearNotify.Parser.ParseFrom(incPacket.data);
+        SceneEntityDisappearNotify disappearNotify = SceneEntityDisappearNotify.Parser.ParseFrom(incPacket.Data);
 
-        foreach (var entityId in disappearNotify.EntityList)
-        {
-            session.world.RemoveEntity(entityId);
-        }
+        session.World.RemoveEntities(disappearNotify.EntityList.ToArray(), disappearNotify.DisappearType);
+
     }
 
 }

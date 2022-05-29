@@ -15,7 +15,7 @@ public class Session
 
     public async Task BackgroundCheck()
     {
-        Update((uint)MonotonicTime.Now);
+        Update((uint)TimeCs.Now);
 
         if (_ikcp == null)
         {
@@ -35,21 +35,33 @@ public class Session
 
                     Crypt(recv);
 
-                    Packet.Packet packet = new Packet.Packet(recv);
+
+                    try
+                    {                    
+                        Packet.Packet packet = new Packet.Packet(recv);
 
 
-                    var pktHandler = PacketHandlerFactory.NewInstance(packet.Type);
+
+
+                        var pktHandler = PacketHandlerFactory.NewInstance(packet.Type);
 
 
 
-                    Log.Verbose("{name}: Sent packet with type {type}", user, packet.Type);
+                        Log.Verbose("{name}: Sent packet with type {type}", _user, packet.Type);
 
-                    if (pktHandler != null)
-                    {
+                        if (pktHandler != null)
+                        {
 
-                        Log.Verbose("Handling Packet {a}", packet.Type);
-                        pktHandler.HandleAsync(packet, this).Wait();
+                            Log.Verbose("Handling Packet {Type}", packet.Type);
+                            pktHandler.HandleAsync(packet, this).Wait();
+                        }
                     }
+                    catch (System.ArgumentException e)
+                    {
+                        //its not worth dealing with this
+                        
+                    }
+
 
                 }
                 catch (Exception e)
@@ -63,7 +75,7 @@ public class Session
             Log.Error(e.ToString());
         }
 
-        var delay = (int)Check((uint)MonotonicTime.Now);
+        var delay = (int)Check((uint)TimeCs.Now);
 
 
         if (delay >= 0)
@@ -82,53 +94,45 @@ public class Session
 
     }
 
-    private readonly object lockObj = new object();
+    private readonly object _lockObj = new object();
 
     private IKCP _ikcp;
     
-    public string CS2PeerId;
+    public string? Cs2PeerId;
     
-    public World.World world;
+    public World.World World;
+
     
 
-    private MTKey _key;
+    private string _user;
 
-    public MTKey Key
-    {
-        get { return _key; }
-        set { _key = value; }
-    }
-
-
-    private string user;
-
-    private IKCP.OutputDelegate output = (byte[] data, int length, object user) =>
+    private IKCP.OutputDelegate _output = (byte[] data, int length, object kcpuser) =>
     {
         //here would be where you would send data to the udp socket via information from the user arg
         //we dont send things here so no code here;
 
     };
 
-    public Handler handler { get; private set; }
+    public Handler Handler { get; private set; }
 
-    private void Init(ulong conv, object user, Handler handler)
+    private void Init(ulong conv, object user, Handler? handler)
     {
-        this.handler = handler;
-        this.world = new();
+        Handler = handler;
+        World = new();
 
         _ikcp = new IKCP(conv, user);
 
 
         _ikcp.NoDelay(1, 20, 1, 1);
 
-        _ikcp.SetOutput(output);
+        _ikcp.SetOutput(_output);
 
         _ikcp.WndSize(256, 256);
 
-        this.user = user.ToString();
+        _user = user.ToString();
 
 
-        Log.Debug("Initialized kcp for {a}", this.user);
+        Log.Debug("Initialized kcp for {a}", this._user);
         Task.Run(BackgroundCheck);
 
 
@@ -136,14 +140,14 @@ public class Session
 
 
 
-    public Session(ulong conv, object user, Handler handler)
+    public Session(ulong conv, object user, Handler? handler)
     {
         Init(conv, user, handler);
 
 
     }
 
-    public Session(ulong conv, string user, Handler handler)
+    public Session(ulong conv, string user, Handler? handler)
     {
 
         Init(conv, user, handler);
@@ -159,7 +163,7 @@ public class Session
     {
         List<byte[]> recvList = new();
 
-        byte[] recv;
+        byte[]? recv;
 
         do
         {
@@ -178,13 +182,17 @@ public class Session
 
     public void Crypt(byte[] buffer)
     {
-        if (_key == null)
-            _key = KeyRecovery.FindKey(buffer);
+        if (Handler.Key == null)
+        {
+            Handler.Key = KeyRecovery.FindKey(buffer);
 
-        if (_key == null)
+        }
+
+
+        if (Handler.Key == null)
             throw new Exception("Unable to determine XOR key for session");
 
-        _key.Crypt(buffer);
+        Handler.Key.Crypt(buffer);
     }
 
     public void Update(uint tsCurrent)
@@ -194,7 +202,7 @@ public class Session
             throw new Exception("Session not initialized yet...");
         }
 
-        lock (lockObj)
+        lock (_lockObj)
         {
             _ikcp.Update(tsCurrent);
         }
@@ -209,7 +217,7 @@ public class Session
 
         var delay = 20u;
         
-        lock (lockObj)
+        lock (_lockObj)
         {
             delay = _ikcp.Check(tsCurrent) - tsCurrent;
         }
@@ -217,26 +225,25 @@ public class Session
         return delay;
     }
 
-    public byte[] Recv()
+    public byte[]? Recv()
     {
         if (_ikcp == null)
         {
             throw new Exception("Session not initialized yet...");
         }
 
-        int size = _ikcp.PeekSize();
-        if (size < 0) return null;
-
-
-        var buffer = new byte[size];
-
-        lock (lockObj)
+        lock (_lockObj)
         {
+            int size = _ikcp.PeekSize();
+            if (size < 0) return null;
+
+
+            var buffer = new byte[size];
             _ikcp.Recv(buffer, 0, buffer.Length);
+            return buffer.ToArray();
+
         }
 
-
-        return buffer.ToArray();
     }
 
     public void Input(byte[] buff)
@@ -246,7 +253,7 @@ public class Session
             throw new Exception("Session not initialized yet...");
         }
 
-        lock (lockObj)
+        lock (_lockObj)
         {
             _ikcp.Input(buff, 0, buff.Length);
         }

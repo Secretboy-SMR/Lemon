@@ -1,0 +1,314 @@
+﻿<Window x:Class="Lemonade.ParserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:local="clr-namespace:Lemonade"
+        mc:Ignorable="d"
+        WindowStyle="None" AllowsTransparency="True"
+        Activated="Window_Activated" Deactivated="Window_Deactivated"
+        ResizeMode="CanResizeWithGrip"
+        Closing="Window_Closing"
+        x:Name="TheWindow"
+        Title="Window" Height="275" Width="670" MouseDown="Window_MouseDown"
+        xmlns:VM="clr-namespace:Lemonade">
+    <Window.DataContext>
+        <VM:ParserWindow />
+    </Window.DataContext>
+
+    <Window.Background>
+        <SolidColorBrush x:Name="MainBack" Color="#FF0A0A0A" />
+    </Window.Background>
+
+    <Window.Resources>
+        <Style TargetType="ListViewItem">
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="MinHeight" Value="18" />
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0,0,0,0" />
+            <!-- <EventSetter Event="MouseRightButtonUp" Handler="" />-->
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="{Binding Brush}"/>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="{Binding Brush2}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#FF0A0A0A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="FontFamily" Value="Noto Sans CJK JP DemiLight" />
+        </Style>
+
+        <Style TargetType="Menu">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+
+        <Style TargetType="MenuItem" x:Key="topmenu">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+
+        <Style x:Key="submenu" TargetType="MenuItem">
+            <Setter Property="Foreground" Value="Black"/>
+            <!--<Setter Property="BorderThickness" Value="0"/>-->
+            <!--<Setter Property="Padding" Value="0,0,0,0"/>-->
+        </Style>
+
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid Name="Panel">
+                            <Border BorderBrush="Gray" BorderThickness="0,1,1,1" />
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="0"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Panel" Property="Background" Value="#008888" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Panel" Property="Background" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Border x:Name="WindowBackground" BorderBrush="#FF888888" BorderThickness="1">
+        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.IsContainerVirtualizable="True" VirtualizingPanel.VirtualizationMode="Recycling">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Menu x:Name="MenuBar"  DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Stretch" Padding="3,3,3,3" FontSize="12" ClipToBounds="True">
+                <MenuItem Style="{StaticResource topmenu}" Header="Logging">
+                    <MenuItem Style="{StaticResource submenu}" Header="Reset Damage" x:Name="ResetEntityDamage" InputGestureText="Ctrl+Shift+E" Click="ResetEntityDamage_Click"/>
+                    <!--<MenuItem Style="{StaticResource submenu}" Header="Split Encounter" x:Name="SplitEncounter" InputGestureText="Ctrl+Shift+S" Click="SplitEncounter_Click"/>-->
+                    <MenuItem Style="{StaticResource submenu}" Header="Clear Entity List" x:Name="ClearEntityList" InputGestureText="Ctrl+Shift+R" Click="ClearEntityList_Click"/>
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" Header="End Encounters on Quest Change" x:Name="ProperAutoEndEncounters" IsCheckable="True" IsChecked="False"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Automatically Copy to Clipboard" x:Name="LogToClipboard" IsCheckable="True" IsChecked="False"/>
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" Header="Open Logs Folder"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Session Logs" x:Name="SessionLogs">
+                        <MenuItem Style="{StaticResource submenu}" Header="No logs recorded in this session." x:Name="SessionLogPlaceholder" IsEnabled="False"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Style="{StaticResource topmenu}" Header="Parsing">
+                    <MenuItem Style="{StaticResource submenu}" Header="Manual Track Mob" x:Name="ManualTrackMob"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Mob Parsing">
+                        <MenuItem Style="{StaticResource submenu}" Header="Parse Mobs" IsCheckable="True" IsChecked="false" x:Name="ParseMobs"/>
+                        <MenuItem Style="{StaticResource submenu}" Header="Mob Overview In Log" IsCheckable="True" IsChecked="false" x:Name="MobOverview"/>
+                        <MenuItem Style="{StaticResource submenu}" Header="Exclude Unknown Actors" IsCheckable="True" IsChecked="true" x:Name="MobOverviewExcludeUnknown"/>
+                        <MenuItem Style="{StaticResource submenu}" Header="Mob Count in EncounterStatus" IsCheckable="True" IsChecked="true" x:Name="MobCountInEncounterStatus"/>
+                        <MenuItem Style="{StaticResource submenu}" Header="Popup Mobs of Interest" IsCheckable="True" IsChecked="false" x:Name="MobsOfInterestTracking"/>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" Header="Anonymize Names" IsCheckable="True" IsChecked="False" x:Name="AnonymizeNames"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Hide All Other Players" IsCheckable="True" IsChecked="False" x:Name="Onlyme" />
+                    <MenuItem Style="{StaticResource submenu}" Header="Change DPS Format" IsCheckable="True" IsChecked="False" x:Name="DPSFormat" />
+                    <MenuItem Style="{StaticResource submenu}" Header="Round JA/Crit Percents" IsCheckable="True" IsChecked="False" x:Name="Nodecimal" />
+                    <!--<MenuItem Style="{StaticResource submenu}" Header="Change Data Update interval" Click="ChangeInterval_Click" />-->
+                </MenuItem>
+                <MenuItem Style="{StaticResource topmenu}" Header="Window">
+                    <MenuItem Style="{StaticResource submenu}" Header="Reset Window Size" InputGestureText="Ctrl+Shift+D"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Window Transparency">
+                        <MenuItem Style="{StaticResource submenu}" x:Name="WinOpacity_0" Visibility="Collapsed" IsCheckable="True" IsChecked="False" Header="Transparent" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="WinOpacity_25" IsCheckable="True" IsChecked="False" Header="25%" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="Winopacity_50" IsCheckable="True" IsChecked="False" Header="50%" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="WinOpacity_75" IsCheckable="True" IsChecked="True" Header="75%" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="WinOpacity_100" IsCheckable="True" IsChecked="False" Header="100%" />
+                    </MenuItem>
+                    <MenuItem Style="{StaticResource submenu}" Header="Background Transparency">
+                        <MenuItem Style="{StaticResource submenu}" x:Name="ListOpacity_0" Visibility="Collapsed" IsCheckable="True" IsChecked="False" Header="Transparent" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="ListOpacity_25" IsCheckable="True" IsChecked="False" Header="25%" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="Listopacity_50" IsCheckable="True" IsChecked="False" Header="50%" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="ListOpacity_75" IsCheckable="True" IsChecked="True" Header="75%" />
+                        <MenuItem Style="{StaticResource submenu}" x:Name="ListOpacity_100" IsCheckable="True" IsChecked="False" Header="100%" />
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" IsCheckable="True" IsChecked="True" Header="Always on top" InputGestureText="Ctrl+Shift+A" x:Name="AlwaysOnTop"/>
+                    <MenuItem Style="{StaticResource submenu}" IsCheckable="True" IsChecked="False" Header="Automatically Hide Window" x:Name="AutoHideWindow"/>
+                    <MenuItem Style="{StaticResource submenu}" IsCheckable="True" IsChecked="False" Header="Clickthrough Toggle" x:Name="ClickthroughMode"/>
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" Header="Persistent Buffs Tracker" />
+                </MenuItem>
+                <MenuItem Style="{StaticResource topmenu}" Header="List">
+                    <MenuItem Style="{StaticResource submenu}" Header="Select Columns..." />
+                    <MenuItem Style="{StaticResource submenu}" Header="Damage Graph" IsCheckable="True" IsChecked="False" x:Name="ShowDamageGraph"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Highlight Own Damage" IsCheckable="True" IsChecked="True" x:Name="HighlightYourDamage"/>
+                </MenuItem>
+                <MenuItem Style="{StaticResource topmenu}" Header="Other">
+                    <MenuItem Style="{StaticResource submenu}" Header="Select Languages">
+                        <MenuItem Style="{StaticResource submenu}" x:Name="English" IsCheckable="True" IsChecked="False" Header="English" />
+                    </MenuItem>
+                    <MenuItem Style="{StaticResource submenu}" Header="About" x:Name="About"/>
+                    <Separator />
+                    <MenuItem Header="Low Priority Mode" x:Name="LowResources" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
+                    <MenuItem Header="Disable GPU Rendering" x:Name="CPUdraw" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
+                    <MenuItem Header="Show Updated Time (Debug)" x:Name="Clock" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
+                    <MenuItem Header="Debug Mob Name" x:Name="DebugMobName" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
+                    <MenuItem Header="Debug Quest Id" x:Name="DebugQuestId" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" Header="Track Weapon Passives">
+                        <MenuItem Style="{StaticResource submenu}" Header="Track Stil Passive">
+                            <MenuItem Style="{StaticResource submenu}" x:Name="StilPassiveInMenuBar" IsCheckable="True" IsChecked="False" Header="In MenuBar" />
+                            <MenuItem Style="{StaticResource submenu}" x:Name="StilPassiveInEncounterStatus" IsCheckable="True" IsChecked="False" Header="In EncounterStatus" />
+                        </MenuItem>
+                        <MenuItem Style="{StaticResource submenu}" Header="Track Cras Passive">
+                            <MenuItem Style="{StaticResource submenu}" x:Name="CrasPassiveInMenuBar" IsCheckable="True" IsChecked="False" Header="In MenuBar" />
+                            <MenuItem Style="{StaticResource submenu}" x:Name="CrasPassiveInEncounterStatus" IsCheckable="True" IsChecked="False" Header="In EncounterStatus" />
+                        </MenuItem>
+                        <MenuItem Style="{StaticResource submenu}" Header="Track PP Convert Ring">
+                            <MenuItem Style="{StaticResource submenu}" x:Name="PPConvertRingInEncounterStatus" IsCheckable="True" IsChecked="False" Header="In EncounterStatus" />
+                            <MenuItem Style="{StaticResource submenu}" x:Name="PPConvertRingHasEt" IsCheckable="True" IsChecked="False" Header="Et In Party" />
+                        </MenuItem>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Style="{StaticResource submenu}" Header="Reselect PSO2bin..." x:Name="ResetLogFolder"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Force Plugin Update..." x:Name="PluginUpdate"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Reset OverParse..." x:Name="Reset"/>
+                </MenuItem>
+            </Menu>
+            <Label x:Name="Datetime" Foreground="#FFFFFFFF" Padding="3,3,3,3" Margin="230,0,0,0" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+            <Menu HorizontalAlignment="Right" VerticalAlignment="Stretch" Padding="3,3,3,3" FontSize="12">
+                <MenuItem Header="____" Click="Minimize_Click" Style="{StaticResource topmenu}" />
+                <MenuItem Style="{StaticResource topmenu}" Header="Exit" Click="Exit_Click"/>
+            </Menu>
+
+            <ListView x:Name="CombatantData" AlternationCount="2" HorizontalAlignment="Stretch" Grid.Row="1" 
+                      VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      BorderThickness="0" FontSize="11" ClipToBounds="True" Margin="-2,0,0,0" ItemsSource="{Binding AvatarView.Items, 
+            diag:PresentationTraceSources.TraceLevel=High}">
+                <ListView.Background>
+                    <SolidColorBrush Opacity="0"/>
+                </ListView.Background>
+
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="#FFFFFFFF" />
+                                <Setter Property="Padding" Value="0,2,0,0"/>
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+
+                        <GridViewColumn Header="Name" x:Name="NameColumn" Width="{Binding ElementName=NameH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FriendlyName}" TextAlignment="Left" Margin="-3,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="%" x:Name="PercentColumn" Width="{Binding ElementName=PercentH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PercentDamageDealtShareReadout}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Damage" x:Name="DamageColumn" Width="{Binding ElementName=DmgH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TotalDamageDealtReadout}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Taken" x:Name="DamagedColumn" Width="{Binding ElementName=DmgdH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TotalDamageTakenReadout}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="DPS" x:Name="DPSColumn" Width="{Binding ElementName=DPSH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DPSReadout}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Crit %" x:Name="CriColumn" Width="{Binding ElementName=CriH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CritRatePercentageReadout}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Max Hit" x:Name="HColumn" Width="{Binding ElementName=MdmgH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MaxHitDealt.HightHitReadout}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Attack Name" x:Name="MaxHitColumn" Width="{Binding ElementName=AtkH, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding MaxHitDealt.FriendlyName}" TextAlignment="Center" Margin="-5,-1,-5,-1" Padding="0" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Grid Visibility="Hidden" Grid.Row="1" Margin="0" Grid.RowSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="NameHC" Width="1*"/>
+                    <ColumnDefinition x:Name="PercentHC" Width="39"/>
+                    <ColumnDefinition x:Name="DmgHC" Width="78"/>
+                    <ColumnDefinition x:Name="DmgDHC" Width="52" />
+                    <ColumnDefinition x:Name="DPSHC" Width="44"/>
+                    <ColumnDefinition x:Name="CriHC" Width="44"/>
+                    <ColumnDefinition x:Name="MdmgHC" Width="62"/>
+                    <ColumnDefinition x:Name="AtkHC" Width="1.7*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" x:Name="NameH" />
+                <Grid Grid.Column="1" x:Name="PercentH" />
+                <Grid Grid.Column="2" x:Name="DmgH" />
+                <Grid Grid.Column="3" x:Name="DmgdH" />
+                <Grid Grid.Column="4" x:Name="DPSH" />
+                <Grid Grid.Column="5" x:Name="CriH" />
+                <Grid Grid.Column="6" x:Name="MdmgH" />
+                <Grid Grid.Column="7" x:Name="AtkH" />
+            </Grid>
+
+            <Rectangle x:Name="EncounterIndicator" Grid.Row="2" Height="2" VerticalAlignment="Top"  Fill="White" IsHitTestVisible="False" />
+            <Label x:Name="EncounterStatus" Grid.Row="2" Foreground="White" Padding="5,3,5,2" FontSize="12" IsHitTestVisible="False" Content="{Binding Path=EncounterStatusText, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </Border>
+</Window>

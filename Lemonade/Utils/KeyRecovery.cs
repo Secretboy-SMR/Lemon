@@ -176,7 +176,7 @@ MtQUgpzZZxLaxzHXrV6HkSW2WfkplGvq7r8PZp1YKJAMUXGKoLYHyhpaJDB+qotju0ymhya3C/HeILn5
 DTj3FrBP73CkCAV4elPxM1suoU/Rkq2TX+qBYLtzhY5KlvHv9acKL7TT1LVdMA=="},
         };
 
-        public static MTKey FindKey(byte[] packet)
+        public static MTKey? FindKey(byte[] packet)
         {
             ushort pktMagic = packet.GetUInt16(0, true);
 

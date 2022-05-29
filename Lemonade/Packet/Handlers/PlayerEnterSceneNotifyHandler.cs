@@ -10,10 +10,11 @@ public class PlayerEnterSceneNotifyHandler : PacketHandlerFactory.IPacketHandler
 {
     public async Task HandleAsync(Packet incPacket, Session session)
     {
-        PlayerEnterSceneNotify pesn = PlayerEnterSceneNotify.Parser.ParseFrom(incPacket.data);
+        PlayerEnterSceneNotify pesn = PlayerEnterSceneNotify.Parser.ParseFrom(incPacket.Data);
 
-        session.world.Level = (int)pesn.WorldLevel;
+        session.World.Level = (int)pesn.WorldLevel;
         
+        session.World.ChangeScene(pesn.SceneId);
         
         // session.world.addPlayer();
     }
